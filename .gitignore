@@ -4,4 +4,4 @@
 # But not these files...
 !.gitignore
 !.zshrc
-!.p10k.sh
+!.p10k.zsh
