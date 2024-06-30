@@ -1,7 +1,1 @@
-# Ignore everything
-*
 
-# But not these files...
-!.gitignore
-!.zshrc
-!.p10k.zsh

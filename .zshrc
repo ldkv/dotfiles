@@ -79,10 +79,11 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
     git
+    gh
     z
     zsh-autosuggestions
-    zsh-syntax-highlighting
     fast-syntax-highlighting
+    ohmyzsh-full-autoupdate
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -120,4 +121,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init -)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+[[ ! -f ~/.p10k.zsh ]] || source ./.p10k.zsh
+
+# Add flutter path
+export PATH="/home/ldkv/flutter/bin:$PATH"
