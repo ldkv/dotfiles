@@ -121,7 +121,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 eval "$(pyenv init -)"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ./.p10k.zsh
+[[ ! -f ~/.p10k.zsh ]] || source ~/dev/server-configs/.p10k.zsh
 
 # Add flutter path
 export PATH="/home/ldkv/flutter/bin:$PATH"
