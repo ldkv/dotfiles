@@ -5,6 +5,9 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/dev/server-configs/.p10k.zsh
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -78,12 +81,12 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-    git
-    gh
-    z
-    zsh-autosuggestions
-    fast-syntax-highlighting
-    ohmyzsh-full-autoupdate
+  git
+  gh
+  z
+  zsh-autosuggestions
+  fast-syntax-highlighting
+  ohmyzsh-full-autoupdate
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -119,9 +122,6 @@ eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/dev/server-configs/.p10k.zsh
 
 # Add flutter path
 export PATH="/home/ldkv/flutter/bin:$PATH"

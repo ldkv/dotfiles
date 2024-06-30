@@ -60,3 +60,17 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 ```
+
+### Install packages
+
+```bash
+brew install gh
+brew install pyenv
+```
+
+## Configure Git
+
+```bash
+git config --global user.name "Vu LE"
+git config --global user.email "ledkvu@gmail.com"
+```
