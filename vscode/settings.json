@@ -1,0 +1,89 @@
+{
+    "[dockerfile]": {
+        "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+    },
+    "[json]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[python]": {
+        "editor.codeActionsOnSave": {
+            "source.fixAll.ruff": "explicit",
+            "source.organizeImports.ruff": "explicit"
+        }
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[yaml]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml"
+    },
+    "autoDocstring.docstringFormat": "sphinx-notypes",
+    "dart.devToolsLocation": {
+        "default": "beside"
+    },
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.fontLigatures": false,
+    "editor.formatOnSave": true,
+    "editor.minimap.enabled": false,
+    "editor.wordWrap": "on",
+    "emulator.emulatorPath": "~/Android/Sdk/emulator",
+    "emulator.emulatorPathLinux": "~/Android/Sdk/emulator",
+    "explorer.confirmDelete": false,
+    "explorer.confirmDragAndDrop": false,
+    "git.autofetch": true,
+    "git.confirmSync": false,
+    "git.openRepositoryInParentFolders": "never",
+    "git.replaceTagsWhenPull": true,
+    "git.suggestSmartCommit": false,
+    "github-codesearch.organization": "veesion-io",
+    "github-codesearch.trimText": true,
+    "github.copilot.editor.enableAutoCompletions": true,
+    "github.copilot.enable": {
+        "*": true,
+        "markdown": true,
+        "plaintext": true
+    },
+    "gitlens.advanced.messages": {
+        "suppressCreatePullRequestPrompt": true
+    },
+    "gitlens.telemetry.enabled": false,
+    "notebook.formatOnSave.enabled": true,
+    "path-intellisense.showHiddenFiles": true,
+    "prettier.printWidth": 120,
+    "python.analysis.inlayHints.variableTypes": true,
+    "python.terminal.activateEnvInCurrentTerminal": true,
+    "python.venvPath": "~/dev/venvs/",
+    "remote.autoForwardPortsSource": "hybrid",
+    "remote.SSH.defaultExtensions": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "njpwerner.autodocstring",
+        "eamodio.gitlens",
+        "esbenp.prettier-vscode",
+        "path-intellisense",
+        "redhat.vscode-yaml"
+    ],
+    "remote.SSH.remotePlatform": {
+        "aws-t2-micro": "linux",
+        "ldkv-homelab": "linux"
+    },
+    "ruff.importStrategy": "useBundled",
+    "ruff.lineLength": 120,
+    "ruff.lint.run": "onSave",
+    "security.workspace.trust.untrustedFiles": "open",
+    "settingsSync.ignoredExtensions": [
+        "ms-vscode-remote.remote-wsl"
+    ],
+    "telemetry.telemetryLevel": "off",
+    "terminal.integrated.fontFamily": "MesloLGS NF",
+    "terminal.integrated.fontWeight": "normal",
+    "terminal.integrated.showExitAlert": false,
+    "window.zoomLevel": 1,
+    "workbench.settings.applyToAllProfiles": []
+}
