@@ -55,20 +55,25 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 - Run `p10k configure` to configure the theme.
 - A preconfigured `.p10k.zsh` file is available in this repository.
 
-## Install [brew](https://brew.sh/)
+### Install pyenv
 
 ```bash
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+curl https://pyenv.run | bash
 ```
 
-### Install packages
+## Github CLI & Git configuration
 
-```bash
-brew install gh
-brew install pyenv
-```
+### Install Github CLI
 
-## Configure Git
+(type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+&& sudo mkdir -p -m 755 /etc/apt/keyrings \
+&& wget -qO- https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null \
+&& sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+&& sudo apt update \
+&& sudo apt install gh -y
+
+### Configure Git
 
 ```bash
 git config --global user.name "Vu LE"
