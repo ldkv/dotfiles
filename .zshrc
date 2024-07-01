@@ -124,3 +124,7 @@ eval "$(pyenv init -)"
 
 # Add flutter path
 export PATH="/home/ldkv/flutter/bin:$PATH"
+
+# Aliases
+alias gpt="git push --tags"
+alias lab="ssh ldkv@192.168.1.25"
