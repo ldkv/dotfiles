@@ -128,3 +128,4 @@ export PATH="/home/ldkv/flutter/bin:$PATH"
 # Aliases
 alias gpt="git push --tags"
 alias lab="ssh ldkv@192.168.1.25"
+alias wsl="ssh ldkv@192.168.1.12 -p 2222"
