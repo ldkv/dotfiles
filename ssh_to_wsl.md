@@ -1,5 +1,7 @@
 <!-- https://medium.com/@wuzhenquan/windows-and-wsl-2-setup-for-ssh-remote-access-013955b2f421 -->
 
+<!-- Use tailscale instead!!! https://tailscale.com/ -->
+
 In WSL2:
 
 ```bash
@@ -38,4 +40,10 @@ Finally:
 
 ```bash
 ssh ldkv@192.168.1.12 -p 2222
+```
+
+If not working, reset port proxy (then retry commands above):
+
+```shell
+netsh interface portproxy reset
 ```
