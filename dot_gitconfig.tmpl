@@ -1,5 +1,6 @@
 [user]
-name = Vu LE
-email = {{ .email | quote }}
+name = "Vu LE"
+email = {{ if (index . "email") }} {{ .email | quote }} {{ else }}"ledkvu@gmail.com"{{ end }}
+
 [init]
 defaultBranch = main
