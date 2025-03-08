@@ -132,4 +132,4 @@ setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before recording entry.
 
 # Aliases
 alias gpt="git push --tags"
-alias hg="history -i -D | grep" # alias for searching history
+alias hg="history -i -D 0 | grep" # alias for searching history
