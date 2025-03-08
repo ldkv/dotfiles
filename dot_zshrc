@@ -6,8 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
 fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/dev/server-configs/.p10k.zsh
-[[ ! -f ~/dev/server-configs/.p10k.zsh ]] || source ~/dev/server-configs/.p10k.zsh
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
@@ -117,6 +116,11 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+# Source tools
+. "$HOME/.local/bin/env" # uv
+eval "$(uv generate-shell-completion zsh)" # uv shell completions
+eval "$(uvx --generate-shell-completion zsh)" # uvx shell completions
 
 # Aliases
 alias gpt="git push --tags"
