@@ -125,10 +125,11 @@ eval "$(uvx --generate-shell-completion zsh)" # uvx shell completions
 # Bigger history searching
 export HISTSIZE=1000000
 export SAVEHIST=1000000
-setopt HIST_IGNORE_ALL_DUPS
-setopt HIST_FIND_NO_DUPS
-setopt HIST_REDUCE_BLANKS
+setopt EXTENDED_HISTORY     # Write the history file in the ":start:elapsed;command" format.
+setopt HIST_IGNORE_ALL_DUPS # Delete old recorded entry if new entry is a duplicate.
+setopt HIST_FIND_NO_DUPS    # Do not display a line previously found.
+setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before recording entry.
 
 # Aliases
 alias gpt="git push --tags"
-alias hg="history | grep" # alias for searching history
+alias hg="history -i -D | grep" # alias for searching history

@@ -5,6 +5,9 @@ email = {{ if (index . "email") }} {{- .email | quote -}} {{ else }}"ledkvu@gmai
 [init]
 defaultBranch = main
 
+[pager]
+    branch = false
+
 [credential "https://github.com"]
     helper =
     helper = !/usr/bin/gh auth git-credential
