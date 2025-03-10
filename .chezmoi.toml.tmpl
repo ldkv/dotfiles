@@ -1,0 +1,14 @@
+{{- $email := promptStringOnce . "email" "Email address" -}}
+
+[data]
+email = {{ $email | quote }}
+
+[diff]
+command = "code"
+args = ["--wait", "--diff"]
+
+
+[edit]
+command = "code"
+args = ["--wait"]
+
