@@ -1,9 +1,0 @@
-*.md
-vscode/
-# ignore zshrc and p10k.zsh on Windows
-{{- if eq .chezmoi.os "windows" }}
-.zshrc
-.p10k.zsh
-{{- else }}
-Microsoft.PowerShell_profile.ps1
-{{- end }}
