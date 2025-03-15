@@ -40,35 +40,33 @@ echo "$OMZ_PLUGINS" | grep -v "^$" | while IFS="|" read -r plugin_name plugin_ur
 done
 
 # Backup existing dotfiles then symlink to the dotfiles repository
-DOTFILES_DIR="{{ dotfiles_dir }}"
-cd $DOTFILES_DIR
+DOTFILES_PATH=$(realpath "./{{ dotfiles_dir }}")
+BACKUP_PATH="$DOTFILES_PATH/{{ backup_dir }}"
+echo "Generate folder for backups at $BACKUP_PATH"
+cd $DOTFILES_PATH
+mkdir -p "$BACKUP_PATH"
 
+SYMLINK_FILES="
+$DOTFILES_PATH/.gitconfig|$HOME/.gitconfig
+$DOTFILES_PATH/.zshrc|$HOME/.zshrc
+$DOTFILES_PATH/.p10k.zsh|$HOME/.p10k.zsh
+"
+echo "$SYMLINK_FILES" | grep -v "^$" | while IFS="|" read -r src dest; do
+    # Only backup if the destination file exists and not a symlink
+    if [ -f "$dest" ]; then
+        echo "Backing up $dest to $BACKUP_PATH"
+        cat "$dest" > "$BACKUP_PATH/$(basename $dest)"
+        rm "$dest"
+    fi
+    echo "Symlinking $src to $dest"
+    ln -s "$src" "$dest"
+done
 
-# Init dotfiles repository
-if [ ! -d "$DOTFILES_DIR/.git" ]; then
-    git config --global user.name "copier"
-    git config --global user.email "copier@localhost"
+# Init dotfiles git repository
+if [ ! -d "$DOTFILES_PATH/.git" ]; then
     git init .
     git add .
     git commit -m "Init dotfiles template"
 else
-    echo "git repository at $DOTFILES_DIR is already initialized. Skipped."
+    echo "git repository at $DOTFILES_PATH is already initialized."
 fi
-
-
-BACKUP_DIR="$DOTFILES_DIR/olds"
-mkdir -p "$BACKUP_DIR"
-SYMLINK_FILES="
-.gitconfig
-.zshrc
-.p10k.zsh
-"
-
-echo "$SYMLINK_FILES" | grep -v "^$" | while IFS="|" read -r src_file; do
-    if [ -f "$HOME/$src_file" ]; then
-        mv "$HOME/$src_file" "$BACKUP_DIR/$src_file.bak"
-    fi
-    ln -s "$DOTFILES_DIR/$src_file" "$HOME/$src_file"
-done
-
-
