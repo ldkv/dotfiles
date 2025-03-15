@@ -13,6 +13,17 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Added
+
+- New Github actions to test the complete setup
+- Github actions now also runs on MacOS
+
+### Changed
+
+- Move all files outside of `dotfiles_dir`
+- Adapt script to verify correct target directory before running
+- Improve Makefile to support Github actions
+
 ## [0.1.3] - 2025-03-15
 
 ### Fixed

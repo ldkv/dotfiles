@@ -1,27 +1,42 @@
 #!make
 
-.PHONY: help
+.PHONY: help template
 
 .DEFAULT_GOAL := help
 
 help: ## show help message
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m\033[0m\n"} /^[$$()% 0-9a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
-##@ Testing
-copier: ## Install Copier
+##@ Pre-requisites
+install_uv: ## Install uv
+	@if ! uv -V ; then \
+        echo "uv not found, installing..."; \
+        curl -LsSf https://astral.sh/uv/install.sh | sh; \
+		source $(HOME)/.cargo/env ; \
+    else \
+        echo "uv is already installed. Skipped."; \
+    fi
+
+install_copier: install_uv ## Install Copier
 	uv tool install copier
 
-TEMPLATE_FOLDER = home-simulator
-template: copier ## Test the template generation process
-	copier copy . $(TEMPLATE_FOLDER) --trust --vcs-ref=HEAD --force
-	@echo "Template generated successfully in $(TEMPLATE_FOLDER)."
 
-test-template: template ## Test the template generation process
-	@rm -rf $(TEMPLATE_FOLDER)
+##@ Development and Testing
+SIMULATOR_FOLDER=home-simulator
+COPIER_COMMAND=copier copy --vcs-ref=HEAD --force --trust .
+template: ## Generate the template for development
+	$(COPIER_COMMAND) $(SIMULATOR_FOLDER)/.dotfiles -d 'simulator=true'
+	@echo "Template generated successfully in $(SIMULATOR_FOLDER)."
 
-test-template-ci: copier ## Test the template generation process without tasks for CI
-	copier copy . $(TEMPLATE_FOLDER) --vcs-ref=HEAD --force --skip-tasks
-	@rm -rf $(TEMPLATE_FOLDER)
+remove-template: ## Remove the generated template
+	rm -rf $(SIMULATOR_FOLDER)
+	@echo "Template removed successfully."
+
+test-template: install_copier ## Test complete template generation with tasks
+	$(COPIER_COMMAND) $(HOME)/.dot
+
+test-template-no-tasks: install_copier ## Test template generation without tasks
+	$(COPIER_COMMAND) $(HOME)/.dot --skip-tasks
 
 
 ##@ Release and Deployment
