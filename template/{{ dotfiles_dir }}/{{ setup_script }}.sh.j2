@@ -1,0 +1,74 @@
+#!/bin/sh
+
+OMZ_HOME=${OMZ_HOME:-$HOME/.oh-my-zsh}
+OMZ_CUSTOM=${OMZ_CUSTOM:-$OMZ_HOME/custom}
+OMZ_PLUGINS="
+zsh-autosuggestions|https://github.com/zsh-users/zsh-autosuggestions
+fast-syntax-highlighting|https://github.com/zdharma-continuum/fast-syntax-highlighting.git
+ohmyzsh-full-autoupdate|https://github.com/Pilaton/OhMyZsh-full-autoupdate.git
+"
+
+# Install zsh
+if ! command -v zsh >/dev/null 2>&1; then
+    sudo apt update
+    sudo apt install -y zsh
+else
+    echo "zsh is already installed. Skipped."
+fi
+
+# Install oh-my-zsh
+if [ ! -d "$OMZ_HOME" ]; then
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+else
+    echo "oh-my-zsh is already installed. Skipped."
+fi
+
+# Install powerlevel10k theme
+if [ ! -d "$OMZ_CUSTOM/themes/powerlevel10k" ]; then
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $OMZ_CUSTOM/themes/powerlevel10k
+else
+    echo "powerlevel10k theme is already installed. Skipped."
+fi
+
+# Install oh-my-zsh plugins
+echo "$OMZ_PLUGINS" | grep -v "^$" | while IFS="|" read -r plugin_name plugin_url; do
+    if [ ! -d "$OMZ_CUSTOM/plugins/$plugin_name" ]; then
+        git clone "$plugin_url" "$OMZ_CUSTOM/plugins/$plugin_name"
+    else
+        echo "$plugin_name plugin is already installed. Skipped."
+    fi
+done
+
+# Backup existing dotfiles then symlink to the dotfiles repository
+DOTFILES_DIR="{{ dotfiles_dir }}"
+cd $DOTFILES_DIR
+
+
+# Init dotfiles repository
+if [ ! -d "$DOTFILES_DIR/.git" ]; then
+    git config --global user.name "copier"
+    git config --global user.email "copier@localhost"
+    git init .
+    git add .
+    git commit -m "Init dotfiles template"
+else
+    echo "git repository at $DOTFILES_DIR is already initialized. Skipped."
+fi
+
+
+BACKUP_DIR="$DOTFILES_DIR/olds"
+mkdir -p "$BACKUP_DIR"
+SYMLINK_FILES="
+.gitconfig
+.zshrc
+.p10k.zsh
+"
+
+echo "$SYMLINK_FILES" | grep -v "^$" | while IFS="|" read -r src_file; do
+    if [ -f "$HOME/$src_file" ]; then
+        mv "$HOME/$src_file" "$BACKUP_DIR/$src_file.bak"
+    fi
+    ln -s "$DOTFILES_DIR/$src_file" "$HOME/$src_file"
+done
+
+
