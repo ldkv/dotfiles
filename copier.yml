@@ -1,4 +1,4 @@
-_templates_suffix: ".jinja"
+_templates_suffix: ".j2"
 _subdirectory: template
 
 dotfiles_dir:

@@ -17,6 +17,10 @@ https://keepachangelog.com/en/1.0.0/
 
 - Move files to subfolder `dotfiles_dir`
 
+### Changed
+
+- Rename template extension to `.j2` instead of `.jinja`
+
 ## [0.0.4] - 2025-03-14
 
 ### Added
