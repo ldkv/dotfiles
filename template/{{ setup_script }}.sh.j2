@@ -40,11 +40,10 @@ echo "$OMZ_PLUGINS" | grep -v "^$" | while IFS="|" read -r plugin_name plugin_ur
 done
 
 # Backup existing dotfiles then symlink to the dotfiles repository
-DOTFILES_PATH=$(realpath "./{{ dotfiles_dir }}")
+DOTFILES_PATH=$(realpath "./")
 BACKUP_PATH="$DOTFILES_PATH/{{ backup_dir }}"
 
 echo "Generate folder for backups at $BACKUP_PATH"
-cd $DOTFILES_PATH
 mkdir -p "$BACKUP_PATH"
 
 DEST_PATH=$(dirname $DOTFILES_PATH) # Parent directory of dotfiles
@@ -68,6 +67,8 @@ done
 # Init dotfiles git repository
 if [ ! -d "$DOTFILES_PATH/.git" ]; then
     git init .
+    git config --local user.name "{{ user_name }}"
+    git config --local user.email "{{ user_email }}"
     git add .
     git commit -m "Init dotfiles template"
 else
