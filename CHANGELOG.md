@@ -16,10 +16,15 @@ https://keepachangelog.com/en/1.0.0/
 ### Added
 
 - Move files to subfolder `dotfiles_dir`
+- Backup files before install to `backups` folder inside `dotfiles_dir`
 
 ### Changed
 
 - Rename template extension to `.j2` instead of `.jinja`
+
+### Fixed
+
+- Alias for `dotfiles-update` in .zshrc
 
 ## [0.0.4] - 2025-03-14
 

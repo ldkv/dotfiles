@@ -23,6 +23,12 @@ setup_script:
   default: "setup_once"
   when: false
 
+backup_dir:
+  type: str
+  help: "Name of the backup directory"
+  default: "backups"
+  when: false
+
 _tasks:
   - name: "Initial setup: install zsh and oh-my-zsh"
     command: |
