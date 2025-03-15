@@ -71,7 +71,9 @@ _tasks:
         git add .zshrc
         git add .gitconfig
         git add .p10k.zsh
-        git commit -m "Init with dotfiles"
+        git add .gitignore
+        git add .copier-answers.yml
+        git commit -m "Init with dotfiles template"
       else
         echo "git repository at $HOME is already initialized"
       fi

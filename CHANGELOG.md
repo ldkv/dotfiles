@@ -13,6 +13,13 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.0.4] - 2025-03-14
+
+### Added
+
+- gitignore template
+- alias to update to latest template version
+
 ## [0.0.3] - 2025-03-14
 
 ### Changed

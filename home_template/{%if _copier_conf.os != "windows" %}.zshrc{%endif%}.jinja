@@ -138,4 +138,7 @@ setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before recording entry.
 
 # Aliases
 alias gpt="git push --tags"
-alias hg="history -i -D 0 | grep" # alias for searching history
+# Searching history
+alias hg="history -i -D 0 | grep"
+# Update dotfiles with latest template version
+alias dotfiles-update="cd $HOME && copier coiper update --trust -A"
