@@ -13,6 +13,8 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.2.0] - 2025-03-15
+
 ### Added
 
 - New Github actions to test the complete setup
