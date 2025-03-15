@@ -1,11 +1,6 @@
 _templates_suffix: ".j2"
 _subdirectory: template
 
-dotfiles_dir:
-  type: str
-  help: "Name of the dotfiles directory"
-  default: ".dotfiles"
-
 user_name:
   type: str
   help: "Name for git config"
