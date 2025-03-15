@@ -42,14 +42,17 @@ done
 # Backup existing dotfiles then symlink to the dotfiles repository
 DOTFILES_PATH=$(realpath "./{{ dotfiles_dir }}")
 BACKUP_PATH="$DOTFILES_PATH/{{ backup_dir }}"
+
 echo "Generate folder for backups at $BACKUP_PATH"
 cd $DOTFILES_PATH
 mkdir -p "$BACKUP_PATH"
 
+DEST_PATH=$(dirname $DOTFILES_PATH) # Parent directory of dotfiles
+echo "Backup then symlink dotfiles to $DEST_PATH"
 SYMLINK_FILES="
-$DOTFILES_PATH/.gitconfig|$HOME/.gitconfig
-$DOTFILES_PATH/.zshrc|$HOME/.zshrc
-$DOTFILES_PATH/.p10k.zsh|$HOME/.p10k.zsh
+$DOTFILES_PATH/.gitconfig|$DEST_PATH/.gitconfig
+$DOTFILES_PATH/.zshrc|$DEST_PATH/.zshrc
+$DOTFILES_PATH/.p10k.zsh|$DEST_PATH/.p10k.zsh
 "
 echo "$SYMLINK_FILES" | grep -v "^$" | while IFS="|" read -r src dest; do
     # Only backup if the destination file exists and not a symlink

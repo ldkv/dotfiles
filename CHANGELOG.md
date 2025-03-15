@@ -13,6 +13,13 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.1.2] - 2025-03-15
+
+### Changed
+
+- Assume destination for symlink is parent directory of `dotfiles_dir`
+- Rearrange .zshrc contents
+
 ## [0.1.1] - 2025-03-15
 
 ### Added
