@@ -11,11 +11,6 @@ user_email:
   help: "Email for git config"
   default: "ledkvu@gmail.com"
 
-bare_repo_name:
-  type: str
-  help: "Name for bare git repository"
-  default: "dotfiles"
-
 _tasks:
   # Install zsh if it's not already installed
   - name: Install zsh
@@ -67,16 +62,17 @@ _tasks:
         echo "powerlevel10k theme is already installed"
       fi
     when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
-  # Initialize bare git repository for dotfiles
+  # Initialize bare git repository in $HOME directory if it's not already initialized
   - command: >
-      if [ ! -d "$HOME/.{{ bare_repo_name }}" ]; then
-        git init --bare $HOME/{{ bare_repo_name }}
-        /usr/bin/git --git-dir=$HOME/{{ bare_repo_name }}/ --work-tree=$HOME config --local status.showUntrackedFiles no
-        /usr/bin/git --git-dir=$HOME/{{ bare_repo_name }}/ --work-tree=$HOME add $HOME/.zshrc
-        /usr/bin/git --git-dir=$HOME/{{ bare_repo_name }}/ --work-tree=$HOME add $HOME/.gitconfig
-        /usr/bin/git --git-dir=$HOME/{{ bare_repo_name }}/ --work-tree=$HOME add $HOME/.p10k.zsh
-        /usr/bin/git --git-dir=$HOME/{{ bare_repo_name }}/ --work-tree=$HOME commit -m "Init with dotfiles"
+      if [ ! -d "$HOME/.git" ]; then
+        cd $HOME
+        git init .
+        git config --local status.showUntrackedFiles no
+        git add .zshrc
+        git add .gitconfig
+        git add .p10k.zsh
+        git commit -m "Init with dotfiles"
       else
-        echo "dotfiles repository is already initialized"
+        echo "git repository at $HOME is already initialized"
       fi
     when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
