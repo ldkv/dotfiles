@@ -11,7 +11,7 @@ help: ## show help message
 copier: ## Install Copier
 	uv tool install copier
 
-TEMPLATE_FOLDER = test-project
+TEMPLATE_FOLDER = home-simulator
 template: copier ## Test the template generation process
 	copier copy . $(TEMPLATE_FOLDER) --trust --vcs-ref=HEAD --force
 	@echo "Template generated successfully in $(TEMPLATE_FOLDER)."
