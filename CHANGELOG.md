@@ -13,6 +13,16 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.0.2] - 2025-03-14
+
+### Added
+
+- Possible to choose bare repository name for dotfiles
+
+### Changed
+
+- Update README.md
+
 ## [0.0.1] - 2025-03-14
 
 ### Added

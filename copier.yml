@@ -11,68 +11,72 @@ user_email:
   help: "Email for git config"
   default: "ledkvu@gmail.com"
 
+bare_repo_name:
+  type: str
+  help: "Name for bare git repository"
+  default: "dotfiles"
 
 _tasks:
-    # Install zsh if it's not already installed
-    - name: Install zsh
-      command: >
-        if [ ! -x "$(command -v zsh)" ]; then
-          sudo apt update
-          sudo apt install -y zsh
-        else
-          echo "zsh is already installed"
-        fi
-      when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux'] }}"
-    # Install oh-my-zsh if it's not already installed
-    - command: >
-        if [ ! -d "$HOME/.oh-my-zsh" ]; then
-          sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
-        else
-          echo "oh-my-zsh is already installed"
-        fi
-      when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
-    # Install zsh-autosuggestions plugin if it's not already installed
-    - command: >
-        if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
-          git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
-        else
-          echo "zsh-autosuggestions plugin is already installed"
-        fi
-      when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
-    # Install fast-zsh-syntax-highlighting plugin if it's not already installed
-    - command: >
-        if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting" ]; then
-          git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
-        else
-          echo "fast-syntax-highlighting plugin is already installed"
-        fi
-      when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
-    # Install ohmyzsh-full-autoupdate plugin if it's not already installed
-    - command: >
-        if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate" ]; then
-            git clone https://github.com/Pilaton/OhMyZsh-full-autoupdate.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate
-        else
-          echo "ohmyzsh-full-autoupdate plugin is already installed"
-        fi
-      when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
-    # Install powerlevel10k theme for zsh if it's not already installed
-    - command: >
-        if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
-          git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
-        else
-          echo "powerlevel10k theme is already installed"
-        fi
-      when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
-    # Initialize bare git repository for dotfiles
-    - command: >
-        if [ ! -d "$HOME/.dotfiles" ]; then
-          git init --bare $HOME/.dotfiles
-          /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME config --local status.showUntrackedFiles no
-          /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add $HOME/.zshrc
-          /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add $HOME/.gitconfig
-          /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add $HOME/.p10k.zsh
-          /usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME commit -m "Init with dotfiles"
-        else
-          echo "dotfiles repository is already initialized"
-        fi
-      when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] and _copier_conf.overwrite != true }}"
+  # Install zsh if it's not already installed
+  - name: Install zsh
+    command: >
+      if [ ! -x "$(command -v zsh)" ]; then
+        sudo apt update
+        sudo apt install -y zsh
+      else
+        echo "zsh is already installed"
+      fi
+    when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux'] }}"
+  # Install oh-my-zsh if it's not already installed
+  - command: >
+      if [ ! -d "$HOME/.oh-my-zsh" ]; then
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+      else
+        echo "oh-my-zsh is already installed"
+      fi
+    when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
+  # Install zsh-autosuggestions plugin if it's not already installed
+  - command: >
+      if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions" ]; then
+        git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+      else
+        echo "zsh-autosuggestions plugin is already installed"
+      fi
+    when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
+  # Install fast-zsh-syntax-highlighting plugin if it's not already installed
+  - command: >
+      if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting" ]; then
+        git clone https://github.com/zdharma-continuum/fast-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/fast-syntax-highlighting
+      else
+        echo "fast-syntax-highlighting plugin is already installed"
+      fi
+    when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
+  # Install ohmyzsh-full-autoupdate plugin if it's not already installed
+  - command: >
+      if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate" ]; then
+          git clone https://github.com/Pilaton/OhMyZsh-full-autoupdate.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/ohmyzsh-full-autoupdate
+      else
+        echo "ohmyzsh-full-autoupdate plugin is already installed"
+      fi
+    when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
+  # Install powerlevel10k theme for zsh if it's not already installed
+  - command: >
+      if [ ! -d "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k" ]; then
+        git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
+      else
+        echo "powerlevel10k theme is already installed"
+      fi
+    when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
+  # Initialize bare git repository for dotfiles
+  - command: >
+      if [ ! -d "$HOME/.{{ bare_repo_name }}" ]; then
+        git init --bare $HOME/{{ bare_repo_name }}
+        /usr/bin/git --git-dir=$HOME/{{ bare_repo_name }}/ --work-tree=$HOME config --local status.showUntrackedFiles no
+        /usr/bin/git --git-dir=$HOME/{{ bare_repo_name }}/ --work-tree=$HOME add $HOME/.zshrc
+        /usr/bin/git --git-dir=$HOME/{{ bare_repo_name }}/ --work-tree=$HOME add $HOME/.gitconfig
+        /usr/bin/git --git-dir=$HOME/{{ bare_repo_name }}/ --work-tree=$HOME add $HOME/.p10k.zsh
+        /usr/bin/git --git-dir=$HOME/{{ bare_repo_name }}/ --work-tree=$HOME commit -m "Init with dotfiles"
+      else
+        echo "dotfiles repository is already initialized"
+      fi
+    when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
