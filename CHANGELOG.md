@@ -16,6 +16,8 @@ https://keepachangelog.com/en/1.0.0/
 ### Changed
 
 - Move OMZ plugins and symlink target lists to `copier.yml` for easier maintenance
+- Use `exclude` settings in `copier.yml` to exclude files
+- Rename files for better readability
 
 ## [0.2.2] - 2025-03-15
 
