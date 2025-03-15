@@ -17,6 +17,24 @@ user_email:
   default: "ledkvu@gmail.com"
 
 # Default variables for programming purpose - not included in the prompt
+omz_plugins:
+  type: str
+  help: "List of Oh My Zsh plugins to install"
+  when: false
+  default: |
+    zsh-autosuggestions|https://github.com/zsh-users/zsh-autosuggestions
+    fast-syntax-highlighting|https://github.com/zdharma-continuum/fast-syntax-highlighting.git
+    ohmyzsh-full-autoupdate|https://github.com/Pilaton/OhMyZsh-full-autoupdate.git
+
+symlink_targets:
+  type: str
+  help: "List of files to backup and symlink"
+  when: false
+  default: |
+    $DOTFILES_PATH/.gitconfig|$DEST_PATH/.gitconfig
+    $DOTFILES_PATH/.zshrc|$DEST_PATH/.zshrc
+    $DOTFILES_PATH/.p10k.zsh|$DEST_PATH/.p10k.zsh
+
 setup_script:
   type: str
   help: "Name of the setup script"
@@ -30,6 +48,7 @@ backup_dir:
   when: false
 
 _tasks:
+  - echo {{ omz_plugins|to_json }}
   - name: "Initial setup. Execute once after generating the template."
     command: |
       if [ "$(dirname {{ _copier_conf.dst_path }})" != "$HOME" ] && [ "{{ _copier_conf.data.simulator }}" != "true" ]; then
