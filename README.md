@@ -24,33 +24,41 @@ uv tool install copier
 
 ## Features
 
-The template includes the following features:
+This template includes the following features:
 
-- [x] Use [uv](https://docs.astral.sh/uv/) as project and dependencies manager
-- [x] To be defined
+- [x] TBD
 
 ## How to use
 
-### Initialize and merge with your dotfiles
+### Initialize and symlink to your dotfiles
+
+To initialize this template, run:
+
+```bash
+copier copy gh:ldkv/dotfiles.git $HOME/.dotfiles --trust
+```
 
 > [!CAUTION]
-> Merging may overwrite existing files, make sure to backup your own dotfiles before merging.
+> The target directory must be a subfolder of the home directory, e.g. `$HOME/.dotfiles`.
 
-To merge your dotfiles using this template, run:
+This command will copy the template to the target directory, then execute the initial setup script to do the following actions in order. The action will be skipped if already done:
+
+- Install `zsh`
+- Install [Oh My Zsh](https://ohmyz.sh/)
+- Install [powerlevel10k theme](https://github.com/romkatv/powerlevel10k)
+- Install various zsh plugins
+- Backup supported dotfiles to `$HOME/.dotfiles/backups`
+- Symlink dotfiles to the home directory
+- Initialize git repository in the target directory and then make first commit
+
+It is also possible to execute the script yourself after initializing the template, by running:
 
 ```bash
-copier copy gh:ldkv/dotfiles.git $HOME --skip-tasks
+copier copy gh:ldkv/dotfiles.git $HOME/.dotfiles --skip-tasks
+cd $HOME/.dotfiles
+chmod +x setup_once.sh
+./setup_once.sh
 ```
-
-This command will copy the template to your home directory and skip all oneshot tasks, which are to install oh-my-zsh and its plugins.
-
-If you trust the template and want to execute all tasks, run the following command instead:
-
-```bash
-copier copy gh:ldkv/dotfiles.git $HOME --trust
-```
-
-Then follow the on-screen instructions to resolve conflicts with existing files.
 
 ### Update the project with latest template version
 
@@ -59,7 +67,13 @@ After a project is already configured with this template, a file `.copier-answer
 To update the project with the latest template version, simply run:
 
 ```bash
-copier update -A
+copier update -A --skip-tasks
+```
+
+Or using the existing alias:
+
+```bash
+dotfiles-update
 ```
 
 ## Contributing
