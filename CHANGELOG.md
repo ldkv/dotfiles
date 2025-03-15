@@ -17,6 +17,10 @@ https://keepachangelog.com/en/1.0.0/
 
 - Move files to subfolder `dotfiles_dir`
 - Backup files before install to `backups` folder inside `dotfiles_dir`
+- Script to setup the dotfiles once after the first copy:
+  - Install `zsh` and `oh-my-zsh`
+  - Backup then symlink the dotfiles
+  - Initialize git repository
 
 ### Changed
 

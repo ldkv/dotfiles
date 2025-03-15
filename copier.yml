@@ -32,7 +32,6 @@ backup_dir:
 _tasks:
   - name: "Initial setup: install zsh and oh-my-zsh"
     command: |
-      echo {{ _copier_conf|to_json }}
       chmod +x ./{{ dotfiles_dir }}/{{ setup_script }}.sh
       ./{{ dotfiles_dir }}/{{ setup_script }}.sh
     when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
