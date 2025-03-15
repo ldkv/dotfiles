@@ -147,4 +147,5 @@ alias gpt="git push --tags"
 # Searching history
 alias hg="history -i -D 0 | grep"
 # Update dotfiles with latest template version
-alias dotfiles-update="cd $HOME/{{ dotfiles_dir }} && copier update --trust -A"
+alias dotfiles="cd $HOME/{{ dotfiles_dir }}/"
+alias dotfiles-update="copier update --trust -A $HOME/{{ dotfiles_dir }}/"
