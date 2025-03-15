@@ -46,6 +46,13 @@ BACKUP_PATH="$DOTFILES_PATH/{{ backup_dir }}"
 echo "Generate folder for backups at $BACKUP_PATH"
 mkdir -p "$BACKUP_PATH"
 
+echo "Add dotfiles aliases to .zshrc"
+echo "# For dotfiles" >> $DOTFILES_PATH/.zshrc
+echo "export DOTFILES_PATH=$DOTFILES_PATH" >> $DOTFILES_PATH/.zshrc
+echo 'alias dotfiles="cd $DOTFILES_PATH"' >> $DOTFILES_PATH/.zshrc
+echo 'alias dotfiles-update="copier update $DOTFILES_PATH/ --trust -A"' >> $DOTFILES_PATH/.zshrc
+
+
 DEST_PATH=$(dirname $DOTFILES_PATH) # Parent directory of dotfiles
 echo "Backup then symlink dotfiles to $DEST_PATH"
 SYMLINK_FILES="

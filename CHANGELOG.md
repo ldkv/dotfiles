@@ -13,6 +13,12 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.2.2] - 2025-03-15
+
+### Changed
+
+- Evaluate aliases only once at setup
+
 ## [0.2.1] - 2025-03-15
 
 ### Fixed

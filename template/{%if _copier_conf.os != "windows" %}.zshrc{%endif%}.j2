@@ -108,19 +108,6 @@ source $ZSH/oh-my-zsh.sh
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-# Set personal aliases, overriding those provided by oh-my-zsh libs,
-# plugins, and themes. Aliases can be placed here, though oh-my-zsh
-# users are encouraged to define aliases within the ZSH_CUSTOM folder.
-# For a full list of active aliases, run `alias`.
-#
-# Git
-alias gpt="git push --tags"
-# Searching history
-alias hg="history -i -D 0 | grep"
-# Update dotfiles with latest template version
-alias dotfiles="cd {{ _copier_conf.dst_path }}/"
-alias dotfiles-update="copier update {{ _copier_conf.dst_path }}/ --trust -A"
-
 
 ##@ Bigger history searching
 export HISTSIZE=1000000
@@ -143,3 +130,10 @@ eval "$(uvx --generate-shell-completion zsh)"
 export PATH=$PATH:/opt/homebrew/bin # Homebrew on MacOS
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES # Fix for Python multiprocessing
 {%- endif %}
+
+
+##@ Aliases
+# Git
+alias gpt="git push --tags"
+# Searching history
+alias hg="history -i -D 0 | grep"
