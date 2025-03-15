@@ -13,6 +13,10 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Added
+
+- Move files to subfolder `dotfiles_dir`
+
 ## [0.0.4] - 2025-03-14
 
 ### Added

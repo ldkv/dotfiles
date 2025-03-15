@@ -1,5 +1,10 @@
 _templates_suffix: ".jinja"
-_subdirectory: home_template
+_subdirectory: template
+
+dotfiles_dir:
+  type: str
+  help: "Name of the dotfiles directory"
+  default: ".dotfiles"
 
 user_name:
   type: str
