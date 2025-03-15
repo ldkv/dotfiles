@@ -13,6 +13,12 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.2.1] - 2025-03-15
+
+### Fixed
+
+- Aliases for `dotfiles` and `dotfiles-update` in `.zshrc`
+
 ## [0.2.0] - 2025-03-15
 
 ### Added
