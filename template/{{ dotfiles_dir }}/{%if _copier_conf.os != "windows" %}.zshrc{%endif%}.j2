@@ -117,18 +117,8 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Extend PATH
-{%- if _copier_conf.os == "macos" %}
-export PATH=$PATH:/opt/homebrew/bin # Homebrew on MacOS
-export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES # Fix for Python multiprocessing
-{%- endif %}
 
-# Source tools
-. "$HOME/.local/bin/env" # uv
-eval "$(uv generate-shell-completion zsh)" # uv shell completions
-eval "$(uvx --generate-shell-completion zsh)" # uvx shell completions
-
-# Bigger history searching
+##@ Bigger history searching
 export HISTSIZE=1000000
 export SAVEHIST=1000000
 setopt EXTENDED_HISTORY     # Write the history file in the ":start:elapsed;command" format.
@@ -136,9 +126,25 @@ setopt HIST_IGNORE_ALL_DUPS # Delete old recorded entry if new entry is a duplic
 setopt HIST_FIND_NO_DUPS    # Do not display a line previously found.
 setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before recording entry.
 
-# Aliases
+
+##@ Source tools
+# uv
+. "$HOME/.local/bin/env"
+eval "$(uv generate-shell-completion zsh)"
+eval "$(uvx --generate-shell-completion zsh)"
+
+
+##@ Extend PATH
+{%- if _copier_conf.os == "macos" %}
+export PATH=$PATH:/opt/homebrew/bin # Homebrew on MacOS
+export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES # Fix for Python multiprocessing
+{%- endif %}
+
+
+##@ Aliases
+# Git
 alias gpt="git push --tags"
 # Searching history
 alias hg="history -i -D 0 | grep"
 # Update dotfiles with latest template version
-alias dotfiles-update="cd $HOME && copier coiper update --trust -A"
+alias dotfiles-update="cd $HOME/{{ dotfiles_dir }} && copier update --trust -A"

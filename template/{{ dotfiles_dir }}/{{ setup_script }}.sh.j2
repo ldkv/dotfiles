@@ -1,7 +1,7 @@
 #!/bin/sh
 
 OMZ_HOME=${OMZ_HOME:-$HOME/.oh-my-zsh}
-OMZ_CUSTOM=${OMZ_CUSTOM:-$OMZ_HOME/custom}
+ZSH_CUSTOM=${ZSH_CUSTOM:-$OMZ_HOME/custom}
 OMZ_PLUGINS="
 zsh-autosuggestions|https://github.com/zsh-users/zsh-autosuggestions
 fast-syntax-highlighting|https://github.com/zdharma-continuum/fast-syntax-highlighting.git
@@ -24,16 +24,16 @@ else
 fi
 
 # Install powerlevel10k theme
-if [ ! -d "$OMZ_CUSTOM/themes/powerlevel10k" ]; then
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $OMZ_CUSTOM/themes/powerlevel10k
+if [ ! -d "$ZSH_CUSTOM/themes/powerlevel10k" ]; then
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git $ZSH_CUSTOM/themes/powerlevel10k
 else
     echo "powerlevel10k theme is already installed. Skipped."
 fi
 
 # Install oh-my-zsh plugins
 echo "$OMZ_PLUGINS" | grep -v "^$" | while IFS="|" read -r plugin_name plugin_url; do
-    if [ ! -d "$OMZ_CUSTOM/plugins/$plugin_name" ]; then
-        git clone "$plugin_url" "$OMZ_CUSTOM/plugins/$plugin_name"
+    if [ ! -d "$ZSH_CUSTOM/plugins/$plugin_name" ]; then
+        git clone "$plugin_url" "$ZSH_CUSTOM/plugins/$plugin_name"
     else
         echo "$plugin_name plugin is already installed. Skipped."
     fi
