@@ -13,6 +13,12 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.1.3] - 2025-03-15
+
+### Fixed
+
+- Move `copier-answers` outside of `dotfiles_dir`
+
 ## [0.1.2] - 2025-03-15
 
 ### Changed
