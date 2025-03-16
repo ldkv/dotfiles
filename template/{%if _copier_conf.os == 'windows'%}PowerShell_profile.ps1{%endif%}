@@ -2,7 +2,7 @@
 # Environment Variables
 $env:DEV = "D:\dev"
 $env:UV_CACHE_DIR = "$env:DEV\.config\uv\cache"
-$env:STARSHIP_CONFIG = "$env:DEV\.config\starship\starship.tomleee"
+$env:STARSHIP_CONFIG = "$env:DEV\.config\starship\starship.toml"
 
 # # Allow terminating the shell with Ctrl+D
 Set-PSReadlineKeyHandler -Chord Ctrl+d -Function DeleteCharOrExit

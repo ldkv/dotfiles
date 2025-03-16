@@ -46,14 +46,20 @@ echo "Add dotfiles aliases to .zshrc"
 echo "# For dotfiles" >> $DOTFILES_PATH/.zshrc
 echo "export DOTFILES_PATH=$DOTFILES_PATH" >> $DOTFILES_PATH/.zshrc
 echo 'alias dotfiles="cd $DOTFILES_PATH"' >> $DOTFILES_PATH/.zshrc
-echo 'alias dotfiles-update="copier update $DOTFILES_PATH/ --trust -A"' >> $DOTFILES_PATH/.zshrc
+echo 'alias dotfiles-update="uvx copier update $DOTFILES_PATH/ --trust -A"' >> $DOTFILES_PATH/.zshrc
 
 
 DEST_PATH=$(dirname $DOTFILES_PATH) # Parent directory of dotfiles
 echo "Backup then symlink dotfiles to $DEST_PATH"
 SYMLINK_TARGETS={{ symlink_targets | to_json }}
 echo "$SYMLINK_TARGETS" | grep -v "^$" | while IFS="|" read -r src dest; do
-    # Only backup if the destination file exists and not a symlink
+    # Continue if source file does not exist
+    if [ ! -f "$src" ]; then
+        echo "Source file $src does not exist. Skipping."
+        continue
+    fi
+
+    # Only backup if the destination file exists
     if [ -f "$dest" ]; then
         echo "Backing up $dest to $BACKUP_PATH"
         cat "$dest" > "$BACKUP_PATH/$(basename $dest)"

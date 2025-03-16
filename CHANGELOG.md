@@ -19,6 +19,7 @@ https://keepachangelog.com/en/1.0.0/
 - Simplify Github actions with os matrix
 - Use `uvx` to execute `copier` commands
 - Adapt Makefile commands to support Windows
+- Rename template files to adapt to Windows
 
 ## [0.2.2] - 2025-03-15
 
