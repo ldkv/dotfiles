@@ -16,6 +16,9 @@ https://keepachangelog.com/en/1.0.0/
 ### Changed
 
 - Move OMZ plugins and symlink target lists to `copier.yml` for easier maintenance
+- Simplify Github actions with os matrix
+- Use `uvx` to execute `copier` commands
+- Adapt Makefile commands to support Windows
 
 ## [0.2.2] - 2025-03-15
 

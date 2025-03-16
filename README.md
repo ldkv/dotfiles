@@ -35,7 +35,7 @@ This template includes the following features:
 To initialize this template, run:
 
 ```bash
-copier copy gh:ldkv/dotfiles.git $HOME/.dotfiles --trust
+uvx copier copy gh:ldkv/dotfiles.git $HOME/.dotfiles --trust
 ```
 
 > [!CAUTION]
@@ -54,7 +54,7 @@ This command will copy the template to the target directory, then execute the in
 It is also possible to execute the script yourself after initializing the template, by running:
 
 ```bash
-copier copy gh:ldkv/dotfiles.git $HOME/.dotfiles --skip-tasks
+uvx copier copy gh:ldkv/dotfiles.git $HOME/.dotfiles --skip-tasks
 cd $HOME/.dotfiles
 chmod +x setup_once.sh
 ./setup_once.sh
@@ -67,7 +67,7 @@ After a project is already configured with this template, a file `.copier-answer
 To update the project with the latest template version, simply run:
 
 ```bash
-copier update -A --skip-tasks
+uvx copier update -A --skip-tasks
 ```
 
 Or using the existing alias:

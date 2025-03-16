@@ -23,13 +23,13 @@ install_copier: install_uv ## Install Copier
 
 ##@ Development and Testing
 SIMULATOR_FOLDER=home-simulator
-COPIER_COMMAND=copier copy --vcs-ref=HEAD --force --trust .
-template: ## Generate the template for development
+COPIER_COMMAND=uvx copier copy --vcs-ref=HEAD --force --trust .
+template: remove-template ## Generate the template for development
 	$(COPIER_COMMAND) $(SIMULATOR_FOLDER)/.dotfiles -d 'simulator=true'
 	@echo "Template generated successfully in $(SIMULATOR_FOLDER)."
 
 remove-template: ## Remove the generated template
-	rm -rf $(SIMULATOR_FOLDER)
+	rm -r -f $(SIMULATOR_FOLDER);
 	@echo "Template removed successfully."
 
 test-template: install_copier ## Test complete template generation with tasks
