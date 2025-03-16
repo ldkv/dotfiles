@@ -5,7 +5,7 @@ $BACKUP_PATH = "$DOTFILES_PATH\{{ backup_dir }}"
 Write-Output "Generate folder for backups at $BACKUP_PATH"
 New-Item -ItemType Directory -Force -Path $BACKUP_PATH
 
-$SOURCE_PROFILE = "$DOTFILES_PATH\\PowerShell_profile.ps1"
+$SOURCE_PROFILE = "$DOTFILES_PATH\PowerShell_profile.ps1"
 Write-Output "Add dotfiles aliases to $SOURCE_PROFILE"
 
 Add-Content -Path "$SOURCE_PROFILE" -Value ""
@@ -21,11 +21,14 @@ $SYMLINK_TARGETS -split "\\n" | ForEach-Object {
     $line = $_.Trim()
     if ($line -ne "") {
         $parts = $line -split "\|"
-        $src = (Resolve-Path $parts[0]).Path
-        $dest = (Resolve-Path $parts[1]).Path
+        $src = $parts[0]
         $dest = $parts[1]
-        Write-Output "src: $src"
-        Write-Output "dest: $dest"
+
+        # Continue if source file does not exist
+        if (-Not (Test-Path $src -PathType Leaf)) {
+            Write-Output "Source file $src does not exist. Skipping."
+            return
+        }
 
         # Only backup if the destination file exists
         if (Test-Path $dest -PathType Leaf) {
@@ -33,6 +36,8 @@ $SYMLINK_TARGETS -split "\\n" | ForEach-Object {
             Copy-Item -Path $dest -Destination "$BACKUP_PATH\$(Split-Path $dest -Leaf)"
             Remove-Item -Path $dest
         }
+
+        # Create symlink
         Write-Output "Symlinking $src to $dest"
         New-Item -ItemType SymbolicLink -Path $dest -Target $src -Force
     }

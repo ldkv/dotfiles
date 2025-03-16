@@ -1,11 +1,5 @@
 _subdirectory: template
 _templates_suffix: ".j2"
-_exclude:
-  - "{% if os == windows -%}.zshrc{% endif %}"
-  - "{% if os == windows -%}.p10k.zsh{% endif %}"
-  - "{% if os == windows -%}{{ setup_script }}.sh{% endif %}"
-  - "{% if os != windows -%}PowerShell_profile.ps1{% endif %}"
-  - "{% if os != windows -%}{{ setup_script }}.ps1{% endif %}"
 
 _message_before_copy: |
   The template will be generated into "{{ _copier_conf.dst_path }}".
@@ -37,13 +31,10 @@ symlink_targets:
   help: "List of files to backup and symlink"
   when: false
   default: |
-    $DOTFILES_PATH/.gitconfig|$DEST_PATH/.gitconfig
-    {%- if os == windows %}
-    $DOTFILES_PATH/PowerShell_profile.ps1|$PROFILE
-    {%- else %}
     $DOTFILES_PATH/.zshrc|$DEST_PATH/.zshrc
     $DOTFILES_PATH/.p10k.zsh|$DEST_PATH/.p10k.zsh
-    {%- endif %}
+    $DOTFILES_PATH/.gitconfig|$DEST_PATH/.gitconfig
+    $DOTFILES_PATH/PowerShell_profile.ps1|$PROFILE
 
 setup_script:
   type: str

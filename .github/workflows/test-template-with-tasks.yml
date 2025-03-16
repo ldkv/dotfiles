@@ -2,6 +2,7 @@ name: Tests template generation with tasks
 on:
   workflow_call:
   pull_request:
+    types: [opened, reopened, review_requested, ready_for_review]
   push:
     tags:
       - "v[0-9]+.[0-9]+.[0-9]"

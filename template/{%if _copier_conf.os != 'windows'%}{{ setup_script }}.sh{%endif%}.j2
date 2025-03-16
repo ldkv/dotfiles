@@ -53,6 +53,12 @@ DEST_PATH=$(dirname $DOTFILES_PATH) # Parent directory of dotfiles
 echo "Backup then symlink dotfiles to $DEST_PATH"
 SYMLINK_TARGETS={{ symlink_targets | to_json }}
 echo "$SYMLINK_TARGETS" | grep -v "^$" | while IFS="|" read -r src dest; do
+    # Continue if source file does not exist
+    if [ ! -f "$src" ]; then
+        echo "Source file $src does not exist. Skipping."
+        continue
+    fi
+
     # Only backup if the destination file exists
     if [ -f "$dest" ]; then
         echo "Backing up $dest to $BACKUP_PATH"
