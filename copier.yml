@@ -2,9 +2,9 @@ _subdirectory: template
 _templates_suffix: ".j2"
 
 _message_before_copy: |
-    The template will be generated into "{{ _copier_conf.dst_path }}".
-    It is REQUIRED that the target is a sub-directory inside your $HOME directory.
-    Otherwise, the dotfiles will not work as expected. Please abort and specify a correct target.
+  The template will be generated into "{{ _copier_conf.dst_path }}".
+  It is REQUIRED that the target is a sub-directory inside your $HOME directory.
+  Otherwise, the dotfiles will not work as expected. Please abort and specify a correct target.
 
 user_name:
   type: str
@@ -31,9 +31,10 @@ symlink_targets:
   help: "List of files to backup and symlink"
   when: false
   default: |
-    $DOTFILES_PATH/.gitconfig|$DEST_PATH/.gitconfig
     $DOTFILES_PATH/.zshrc|$DEST_PATH/.zshrc
     $DOTFILES_PATH/.p10k.zsh|$DEST_PATH/.p10k.zsh
+    $DOTFILES_PATH/.gitconfig|$DEST_PATH/.gitconfig
+    $DOTFILES_PATH/PowerShell_profile.ps1|$PROFILE
 
 setup_script:
   type: str
@@ -48,8 +49,7 @@ backup_dir:
   when: false
 
 _tasks:
-  - echo {{ omz_plugins|to_json }}
-  - name: "Initial setup. Execute once after generating the template."
+  - name: "Oneshot copy setup for Linux and MacOS"
     command: |
       if [ "$(dirname {{ _copier_conf.dst_path }})" != "$HOME" ] && [ "{{ _copier_conf.data.simulator }}" != "true" ]; then
           echo "ABORTED. Template must be initialized to a sub-directory inside $HOME."
