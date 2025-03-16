@@ -13,6 +13,8 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.3.0] - 2025-03-16
+
 ### Added
 
 - Setup script for Windows using PowerShell v7
