@@ -13,6 +13,10 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Added
+
+- Setup script for Windows using PowerShell v7
+
 ### Changed
 
 - Move OMZ plugins and symlink target lists to `copier.yml` for easier maintenance
