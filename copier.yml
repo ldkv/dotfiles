@@ -38,8 +38,8 @@ symlink_targets:
   when: false
   default: |
     $DOTFILES_PATH/.gitconfig|$DEST_PATH/.gitconfig
-    {%- if os != "windows" %}
-    $DOTFILES_PATH/Microsoft.PowerShell_profile.ps1|$PROFILE
+    {%- if os == windows %}
+    $DOTFILES_PATH/PowerShell_profile.ps1|$PROFILE
     {%- else %}
     $DOTFILES_PATH/.zshrc|$DEST_PATH/.zshrc
     $DOTFILES_PATH/.p10k.zsh|$DEST_PATH/.p10k.zsh
@@ -67,3 +67,7 @@ _tasks:
       chmod +x ./{{ setup_script }}.sh
       ./{{ setup_script }}.sh
     when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
+  - name: "Oneshot copy setup for Windows"
+    command: |
+      pwsh .\{{ setup_script }}.ps1
+    when: "{{ _copier_operation == 'copy' and _copier_conf.os == 'windows' }}"

@@ -1,0 +1,50 @@
+# Backup existing dotfiles then symlink to the dotfiles repository
+$DOTFILES_PATH = (Resolve-Path ".\").Path
+$BACKUP_PATH = "$DOTFILES_PATH\{{ backup_dir }}"
+
+Write-Output "Generate folder for backups at $BACKUP_PATH"
+New-Item -ItemType Directory -Force -Path $BACKUP_PATH
+
+$SOURCE_PROFILE = "$DOTFILES_PATH\\PowerShell_profile.ps1"
+Write-Output "Add dotfiles aliases to $SOURCE_PROFILE"
+
+Add-Content -Path "$SOURCE_PROFILE" -Value ""
+Add-Content -Path "$SOURCE_PROFILE" -Value "# For dotfiles"
+Add-Content -Path "$SOURCE_PROFILE" -Value "`$env:DOTFILES_PATH = `"$DOTFILES_PATH`""
+Add-Content -Path "$SOURCE_PROFILE" -Value "function DotfilesUpdate {uvx copier update `$DOTFILES_PATH --trust -A}"
+Add-Content -Path "$SOURCE_PROFILE" -Value "Set-Alias dotfiles-update DotfilesUpdate"
+
+$DEST_PATH = Split-Path -Parent $DOTFILES_PATH # Parent directory of dotfiles
+Write-Output "Backup then symlink dotfiles to $DEST_PATH"
+$SYMLINK_TARGETS = {{ symlink_targets | to_json }}
+$SYMLINK_TARGETS -split "\\n" | ForEach-Object {
+    $line = $_.Trim()
+    if ($line -ne "") {
+        $parts = $line -split "\|"
+        $src = (Resolve-Path $parts[0]).Path
+        $dest = (Resolve-Path $parts[1]).Path
+        $dest = $parts[1]
+        Write-Output "src: $src"
+        Write-Output "dest: $dest"
+
+        # Only backup if the destination file exists
+        if (Test-Path $dest -PathType Leaf) {
+            Write-Output "Backing up $dest to $BACKUP_PATH"
+            Copy-Item -Path $dest -Destination "$BACKUP_PATH\$(Split-Path $dest -Leaf)"
+            Remove-Item -Path $dest
+        }
+        Write-Output "Symlinking $src to $dest"
+        New-Item -ItemType SymbolicLink -Path $dest -Target $src -Force
+    }
+}
+
+# Init dotfiles git repository
+if (-Not (Test-Path "$DOTFILES_PATH\.git")) {
+    git init $DOTFILES_PATH
+    git -C $DOTFILES_PATH config --local user.name "{{ user_name }}"
+    git -C $DOTFILES_PATH config --local user.email "{{ user_email }}"
+    git -C $DOTFILES_PATH add .
+    git -C $DOTFILES_PATH commit -m "Init dotfiles template"
+} else {
+    Write-Output "git repository at $DOTFILES_PATH is already initialized."
+}
