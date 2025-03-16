@@ -13,6 +13,12 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.3.1] - 2025-03-16
+
+### Changed
+
+- Remove unnecessary line in .zshrc
+
 ## [0.3.0] - 2025-03-16
 
 ### Added
