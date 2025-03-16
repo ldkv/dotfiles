@@ -58,3 +58,7 @@ _tasks:
       chmod +x ./{{ setup_script }}.sh
       ./{{ setup_script }}.sh
     when: "{{ _copier_operation == 'copy' and _copier_conf.os in ['linux', 'macos'] }}"
+  - name: "Oneshot copy setup for Windows"
+    command: |
+      pwsh .\{{ setup_script }}.ps1
+    when: "{{ _copier_operation == 'copy' and _copier_conf.os == 'windows' }}"
