@@ -120,6 +120,7 @@ setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before recording entry.
 
 ##@ Source tools
 # uv
+. "$HOME/.local/bin/env"
 eval "$(uv generate-shell-completion zsh)"
 eval "$(uvx --generate-shell-completion zsh)"
 

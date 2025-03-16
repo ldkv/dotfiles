@@ -13,6 +13,12 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.3.2] - 2025-03-16
+
+### Changed
+
+- Turns out the line is necessary in .zshrc
+
 ## [0.3.1] - 2025-03-16
 
 ### Changed
