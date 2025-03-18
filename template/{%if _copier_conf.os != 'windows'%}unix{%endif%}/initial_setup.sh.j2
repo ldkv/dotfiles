@@ -37,7 +37,7 @@ done
 
 # Backup existing dotfiles then symlink to the dotfiles repository
 DOTFILES_PATH=$(realpath "./")
-BACKUP_PATH="$DOTFILES_PATH/{{ backup_dir }}"
+BACKUP_PATH="$DOTFILES_PATH/backups"
 
 echo "Generate folder for backups at $BACKUP_PATH"
 mkdir -p "$BACKUP_PATH"
