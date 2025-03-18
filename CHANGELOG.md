@@ -13,6 +13,15 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Added
+
+- Separate aliases to `.zsh_aliases`
+
+### Changed
+
+- Move dotfiles to separate folder for respective OS
+- Move common dotfiles to `common` folder
+
 ## [0.3.2] - 2025-03-16
 
 ### Changed

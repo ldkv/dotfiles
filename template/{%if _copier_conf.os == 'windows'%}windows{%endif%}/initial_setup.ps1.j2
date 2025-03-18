@@ -1,6 +1,6 @@
 # Backup existing dotfiles then symlink to the dotfiles repository
 $DOTFILES_PATH = (Resolve-Path ".\").Path
-$BACKUP_PATH = "$DOTFILES_PATH\{{ backup_dir }}"
+$BACKUP_PATH = "$DOTFILES_PATH\backups"
 
 Write-Output "Generate folder for backups at $BACKUP_PATH"
 New-Item -ItemType Directory -Force -Path $BACKUP_PATH

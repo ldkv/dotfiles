@@ -1,0 +1,9 @@
+# History searching
+alias hg="history -i -D 0 | grep"
+
+# Git aliases
+alias gpt="git push --tags"
+
+# Dotfiles aliases
+alias dotfiles="cd $DOTFILES_PATH"
+alias dotfiles-update="uvx copier update $DOTFILES_PATH/ --trust -A"

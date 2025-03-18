@@ -118,22 +118,19 @@ setopt HIST_FIND_NO_DUPS    # Do not display a line previously found.
 setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before recording entry.
 
 
+##@ Source aliases
+[[ -f ~/.zsh_aliases ]] && source ~/.zsh_aliases
+
+
 ##@ Source tools
-# uv
+# For uv
 . "$HOME/.local/bin/env"
 eval "$(uv generate-shell-completion zsh)"
 eval "$(uvx --generate-shell-completion zsh)"
 
 
-##@ Extend PATH
+##@ Environment variables
 {%- if _copier_conf.os == "macos" %}
 export PATH=$PATH:/opt/homebrew/bin # Homebrew on MacOS
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES # Fix for Python multiprocessing
 {%- endif %}
-
-
-##@ Aliases
-# Git
-alias gpt="git push --tags"
-# Searching history
-alias hg="history -i -D 0 | grep"
