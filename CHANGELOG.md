@@ -13,6 +13,14 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Added
+
+- Dedicated folder for scripts
+
+### Changed
+
+- Move scripts and related files to `scripts` folder
+
 ## [0.4.0] - 2025-03-19
 
 ### Added

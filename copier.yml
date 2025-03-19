@@ -1,11 +1,6 @@
 _subdirectory: template
 _templates_suffix: ".j2"
 
-_message_before_copy: |
-  The template will be generated into "{{ _copier_conf.dst_path }}".
-  It is REQUIRED that the target is a sub-directory inside your $HOME directory.
-  Otherwise, the dotfiles will not work as expected. Please abort and specify a correct target.
-
 user_name:
   type: str
   help: "Name for git config"
