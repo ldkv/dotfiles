@@ -1,6 +1,6 @@
 #!make
 
-.PHONY: help template
+.PHONY: help template version
 
 .DEFAULT_GOAL := help
 
@@ -44,7 +44,12 @@ version: ## Get current project version
 	$(eval version:=$(shell cat VERSION))
 	@echo "Current version is: $(version)"
 
-gh-release: version ## Release a new version using gh CLI
+bump: version ## Commit version bump changes for production
+	git add VERSION CHANGELOG.md
+	git diff --quiet && git diff --staged --quiet || git commit -m "Release $(version)"
+	git diff --quiet origin/HEAD || git push origin HEAD
+
+gh-release: bump ## Release a new version using gh CLI
 	gh release create $(version) --generate-notes
 
 
