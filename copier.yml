@@ -1,11 +1,6 @@
 _subdirectory: template
 _templates_suffix: ".j2"
 
-_message_before_copy: |
-  The template will be generated into "{{ _copier_conf.dst_path }}".
-  It is REQUIRED that the target is a sub-directory inside your $HOME directory.
-  Otherwise, the dotfiles will not work as expected. Please abort and specify a correct target.
-
 user_name:
   type: str
   help: "Name for git config"
@@ -19,8 +14,13 @@ user_email:
 _tasks:
   - name: "Oneshot setup after first copy"
     command: |
-      {%if _copier_conf.os == 'windows'%}pwsh -c {%endif%}uv run setup.py --setup
+      echo "Setup with {{ _copier_conf|to_json }}"
+      echo $DOTFILES_PATH
+      {%if _copier_conf.os == 'windows'%}pwsh -c {%endif%}uv run -m scripts.setup --user_name "{{ user_name }}" --user_email "{{ user_email }}"
     when: "{{ _copier_operation == 'copy' }}"
   - name: "Executing update routine"
     command: |
-      {%if _copier_conf.os == 'windows'%}pwsh -c {%endif%}uv run setup.py --update --version={{ _copier_conf.vcs_ref }} {%if _copier_conf.data.simulator%}--simulator{%endif%}
+      echo "Update with {{ _copier_conf|to_json }}"
+      echo $DOTFILES_PATH
+      {%if _copier_conf.os == 'windows'%}pwsh -c {%endif%}uv run -m scripts.update {%if _copier_conf.data.simulator%}--simulator{%endif%}
+    when: "{{ _copier_operation == 'copy' }}"
