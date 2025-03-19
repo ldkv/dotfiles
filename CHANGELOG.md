@@ -13,6 +13,11 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Changed
+
+- Solution to export correct environment variable DOTFILES_PATH in profile
+- Enrich auto-commit message with latest template version after each update
+
 ## [0.5.0] - 2025-03-19
 
 ### Added
