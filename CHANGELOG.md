@@ -13,6 +13,8 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.4.0] - 2025-03-19
+
 ### Added
 
 - Separate aliases to `.zsh_aliases`
