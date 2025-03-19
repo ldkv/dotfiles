@@ -5,7 +5,7 @@ on:
     types: [opened, reopened, review_requested, ready_for_review]
   push:
     branches:
-      - "*"
+      - "main"
     tags:
       - "v[0-9]+.[0-9]+.[0-9]"
 
@@ -24,6 +24,7 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
+          python-version-file: "template/.python-version"
           enable-cache: true
       - name: Run tests
         run: make test-template

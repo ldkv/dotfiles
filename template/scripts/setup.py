@@ -11,15 +11,17 @@ OMZ_CUSTOM = Path(os.environ.get("ZSH_CUSTOM", OMZ_HOME / "custom"))
 
 
 def setup(is_simulator: bool = False) -> None:
-    """Initialize setup for the first time."""
-    print(f"Execute initial setup after first copy: {DOTFILES_PATH=} | {is_simulator=}")
+    print(f"Execute initial setup after first copy: {is_simulator=}")
+    config = Config.from_json()
+    config.echo()
+
     if is_windows():
         export_dotfiles_path_windows()
     else:
         install_zsh()
         install_oh_my_zsh()
-        install_powerlevel10k()
-        install_plugins()
+        install_powerlevel10k_theme()
+        install_omz_plugins(config.omz_plugins)
         export_dotfiles_path_unix()
 
     init_git_repository()
@@ -28,7 +30,6 @@ def setup(is_simulator: bool = False) -> None:
 
 
 def install_zsh() -> None:
-    """Install zsh if not already installed."""
     if shutil.which("zsh"):
         print("zsh is already installed. Skipped.")
         return
@@ -47,7 +48,6 @@ def install_zsh() -> None:
 
 
 def install_oh_my_zsh() -> None:
-    """Install oh-my-zsh if not already installed."""
     if OMZ_HOME.exists():
         print("oh-my-zsh is already installed. Skipped.")
         return
@@ -56,8 +56,7 @@ def install_oh_my_zsh() -> None:
     run_command('sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"')
 
 
-def install_powerlevel10k() -> None:
-    """Install powerlevel10k theme if not already installed."""
+def install_powerlevel10k_theme() -> None:
     theme_path: Path = OMZ_CUSTOM / "themes" / "powerlevel10k"
     if theme_path.exists():
         print("powerlevel10k theme is already installed. Skipped.")
@@ -67,10 +66,8 @@ def install_powerlevel10k() -> None:
     run_command(f"git clone --depth=1 https://github.com/romkatv/powerlevel10k.git {theme_path}")
 
 
-def install_plugins() -> None:
-    """Install oh-my-zsh plugins."""
-    config = Config.from_json()
-    for plugin_name, plugin_url in config.omz_plugins.items():
+def install_omz_plugins(omz_plugins: dict[str, str]) -> None:
+    for plugin_name, plugin_url in omz_plugins.items():
         plugin_path: Path = OMZ_CUSTOM / "plugins" / plugin_name
         if plugin_path.exists():
             print(f"{plugin_name} plugin is already installed. Skipped.")
