@@ -49,15 +49,14 @@ This command will copy the template to the target directory, then execute the in
 - Install various zsh plugins
 - Backup supported dotfiles to `$HOME/.dotfiles/backups`
 - Symlink dotfiles to the home directory
-- Initialize git repository in the target directory and then make first commit
+- Initialize a local git repository in the target directory then auto-commit
 
 It is also possible to execute the script yourself after initializing the template, by running:
 
 ```bash
 uvx copier copy gh:ldkv/dotfiles.git $HOME/.dotfiles --skip-tasks
 cd $HOME/.dotfiles
-chmod +x setup_once.sh
-./setup_once.sh
+uv run -m scripts.setup
 ```
 
 ### Update the project with latest template version
@@ -67,7 +66,7 @@ After a project is already configured with this template, a file `.copier-answer
 To update the project with the latest template version, simply run:
 
 ```bash
-uvx copier update -A --skip-tasks
+uvx copier update -A --trust
 ```
 
 Or using the existing alias:
