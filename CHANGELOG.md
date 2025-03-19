@@ -13,6 +13,12 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.5.3] - 2025-03-19
+
+### Changed
+
+- Rename `setup_configs.json` to `configs.json`
+
 ## [0.5.2] - 2025-03-19
 
 ### Changed

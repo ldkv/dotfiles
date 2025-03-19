@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import dataclasses
 import json
 import os
@@ -23,7 +22,7 @@ class Config:
 
     @classmethod
     def path(cls) -> Path:
-        file_name = "setup_configs.json"
+        file_name = "configs.json"
         return SCRIPTS_PATH / file_name
 
     @classmethod
