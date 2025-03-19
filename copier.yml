@@ -19,9 +19,8 @@ user_email:
 _tasks:
   - name: "Oneshot setup after first copy"
     command: |
-      uv run setup.py --setup
+      {%if _copier_conf.os == 'windows'%}pwsh -c {%endif%}uv run setup.py --setup
     when: "{{ _copier_operation == 'copy' }}"
   - name: "Executing update routine"
     command: |
-      version="{{ _copier_conf.vcs_ref }}"
-      uv run setup.py --update --version=$version {%if _copier_conf.data.simulator%}--simulator{%endif%}
+      {%if _copier_conf.os == 'windows'%}pwsh -c {%endif%}uv run setup.py --update --version={{ _copier_conf.vcs_ref }} {%if _copier_conf.data.simulator%}--simulator{%endif%}

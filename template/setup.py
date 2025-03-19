@@ -49,9 +49,17 @@ class Config:
             return None
 
         if dest_path.startswith("$"):
-            dest_path = os.environ[dest_path[1:]]  # should raise KeyError if not found
+            dest_path = get_env_var(dest_path[1:])
 
         return Path(dest_path)
+
+
+def get_env_var(var_name: str) -> str:
+    if not is_windows():
+        return os.environ[var_name]
+
+    env_val = run_command(f'pwsh -c "echo ${var_name}"')
+    return env_val.strip()
 
 
 def is_windows() -> bool:
@@ -125,11 +133,23 @@ def install_plugins() -> None:
         run_command(f"git clone {plugin_url} {plugin_path}")
 
 
-def export_dotfiles_path() -> None:
+def export_dotfiles_path_unix() -> None:
     """Append environment variable DOTFILES_PATH to .zshrc."""
     zshrc_path: Path = DOTFILES_PATH / "unix" / ".zshrc"
     with open(zshrc_path, "a") as f:
         f.write(f"export DOTFILES_PATH={DOTFILES_PATH}\n")
+
+
+def export_dotfiles_path_windows() -> None:
+    """Export environment variable DOTFILES_PATH for Windows."""
+    profile_path = DOTFILES_PATH / "windows" / "PowerShell_profile.ps1"
+    with open(profile_path, "a") as f:
+        f.write("\n# For dotfiles\n")
+        f.write(f'$env:DOTFILES_PATH = "{DOTFILES_PATH}"\n')
+        f.write("function GotoDotfiles {cd $env:DOTFILES_PATH}\n")
+        f.write("function DotfilesUpdate {uvx copier update $env:DOTFILES_PATH --trust -A}\n")
+        f.write("Set-Alias dotfiles GotoDotfiles\n")
+        f.write("Set-Alias dotfiles-update DotfilesUpdate\n")
 
 
 ### Backup and symlink methods
@@ -166,21 +186,22 @@ def backup_then_symlink_dotfiles(is_simulator: bool = False) -> None:
     """
     config = Config.from_json()
     symlink_sources = get_existing_symlink_sources()
-    target_dir = DOTFILES_PATH.parent if is_simulator else USER_HOME_PATH
     # Process symlinks
     for source_path, relative_path in symlink_sources:
-        target_path = config.get_custom_symlink(source_path.name) or target_dir / relative_path
+        target_path = config.get_custom_symlink(source_path.name) or USER_HOME_PATH / relative_path
+        # Avoid affecting real target path in simulator mode
+        if is_simulator:
+            target_path = DOTFILES_PATH.parent / relative_path
         if target_path.exists():
             print(f"Backing up {target_path} to {BACKUP_PATH}")
-            backup_path = BACKUP_PATH / target_path.relative_to(target_dir)
+            backup_path = BACKUP_PATH / relative_path
             backup_path.parent.mkdir(parents=True, exist_ok=True)
             shutil.copy2(target_path, backup_path)
             target_path.unlink()
         else:
             target_path.parent.mkdir(parents=True, exist_ok=True)
 
-        print(f"Symlinking: {target_path} -> {source_path}")
-
+        print(f"Symlinking: {source_path} -> {target_path}")
         target_path.symlink_to(source_path)
         config.active_symlinks[source_path.as_posix()] = target_path.as_posix()
 
@@ -196,7 +217,6 @@ def init_git_repo() -> None:
 
     print("Initializing git repository...")
     run_command("git init .")
-    commit_updated_changes("Init dotfiles template")
 
 
 def commit_updated_changes(message: str) -> None:
@@ -216,12 +236,14 @@ def commit_updated_changes(message: str) -> None:
 def setup() -> None:
     """Initialize setup for the first time."""
     print(f"Executing setup routine for {SYSTEM_OS=}.")
-    if not is_windows():
+    if is_windows():
+        export_dotfiles_path_windows()
+    else:
         install_zsh()
         install_oh_my_zsh()
         install_powerlevel10k()
         install_plugins()
-        export_dotfiles_path()
+        export_dotfiles_path_unix()
 
     init_git_repo()
 
