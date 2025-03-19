@@ -1,4 +1,3 @@
-# Should be placed in $PROFILE
 # Environment Variables
 $env:DEV = "D:\dev"
 $env:UV_CACHE_DIR = "$env:DEV\.config\uv\cache"

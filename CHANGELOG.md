@@ -13,6 +13,12 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.5.2] - 2025-03-19
+
+### Changed
+
+- Move `replace_dotfiles_path` task to `update` instead of `setup`
+
 ## [0.5.1] - 2025-03-19
 
 ### Changed

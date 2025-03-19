@@ -14,12 +14,30 @@ def update(is_simulator: bool = False, commit_message: str | None = None) -> Non
     print(f"Executing update routine: {is_simulator=}")
     config = Config.from_json()
     config.echo()
+
+    # Tasks
+    replace_dotfiles_path()
     backup_then_symlink_dotfiles(config, is_simulator)
     if commit_message is None:
         template_version = get_latest_template_version()
         commit_message = f"Update to template version {template_version}"
     commit_updated_changes(commit_message)
     print("Update completed successfully!")
+
+
+def replace_dotfiles_path() -> None:
+    """Replace correct environment variable DOTFILES_PATH in profile."""
+    string_to_replace = "REPLACE_DOTFILES_PATH_HERE"
+    if is_windows():
+        file_to_replace = DOTFILES_PATH / "windows" / "PowerShell_profile.ps1"
+    else:
+        file_to_replace = DOTFILES_PATH / "unix" / ".zsh_aliases"
+
+    with open(file_to_replace, "r") as f:
+        content = f.read()
+    new_content = content.replace(string_to_replace, f"{DOTFILES_PATH.as_posix()}")
+    with open(file_to_replace, "w") as f:
+        f.write(new_content)
 
 
 def backup_then_symlink_dotfiles(config: Config, is_simulator: bool = False) -> None:

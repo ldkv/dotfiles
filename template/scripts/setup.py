@@ -15,13 +15,13 @@ def setup(is_simulator: bool = False) -> None:
     config = Config.from_json()
     config.echo()
 
+    # Tasks
     if not is_windows():
         install_zsh()
         install_oh_my_zsh()
         install_powerlevel10k_theme()
         install_omz_plugins(config.omz_plugins)
 
-    replace_dotfiles_path()
     init_git_repository()
     print("Setup completed successfully!")
     update(is_simulator, "Initial commit with dotfiles template.")
@@ -73,19 +73,6 @@ def install_omz_plugins(omz_plugins: dict[str, str]) -> None:
 
         print(f"Installing {plugin_name} plugin...")
         run_command(f"git clone {plugin_url} {plugin_path}")
-
-
-def replace_dotfiles_path() -> None:
-    """Replace correct environment variable DOTFILES_PATH in profile."""
-    string_to_replace = "REPLACE_DOTFILES_PATH_HERE"
-    if is_windows():
-        file_to_replace = DOTFILES_PATH / "windows" / "PowerShell_profile.ps1"
-    else:
-        file_to_replace = DOTFILES_PATH / "unix" / ".zsh_aliases"
-    with open(file_to_replace, "r") as f:
-        content = f.read()
-    with open(file_to_replace, "w") as f:
-        f.write(content.replace(string_to_replace, f"{DOTFILES_PATH.as_posix()}"))
 
 
 def init_git_repository() -> None:
