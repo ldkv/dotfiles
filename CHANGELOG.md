@@ -16,6 +16,7 @@ https://keepachangelog.com/en/1.0.0/
 ### Added
 
 - Dedicated folder for scripts
+- New migrations section in `copier.yml` to execute update routine
 
 ### Changed
 
