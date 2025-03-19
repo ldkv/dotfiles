@@ -14,12 +14,10 @@ user_email:
 _tasks:
   - name: "Oneshot setup after first copy"
     command: |
-      echo "Executing setup routine: {{ _copier_conf|to_json }}"
-      {%if _copier_conf.os == 'windows'%}pwsh -c {%endif%}uv run -m scripts.setup {%if _copier_conf.data.simulator%}--simulator{%endif%}
+      uv run -m scripts.setup {%if _copier_conf.data.simulator%}--simulator{%endif%}
     when: "{{ _copier_operation == 'copy' }}"
 _migrations:
   - name: "Update routine after every migration/update"
     command: |
-      echo "Executing update routine: {{ _copier_conf|to_json }}"
-      {%if _copier_conf.os == 'windows'%}pwsh -c {%endif%}uv run --with 'pyyaml' -m scripts.update
+      uv run --with "pyyaml" -m scripts.update
     when: "{{ _stage == 'after' }}"
