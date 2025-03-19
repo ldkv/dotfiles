@@ -13,6 +13,12 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.5.4] - 2025-03-19
+
+### Fixed
+
+- Tasks not executed in Windows
+
 ## [0.5.3] - 2025-03-19
 
 ### Changed
