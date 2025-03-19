@@ -16,11 +16,17 @@ https://keepachangelog.com/en/1.0.0/
 ### Added
 
 - Separate aliases to `.zsh_aliases`
+- Python script to execute setup and update routines instead of shell scripts
+- Configuration file `setup_configs.json` to configure the setup variables
 
 ### Changed
 
 - Move dotfiles to separate folder for respective OS
 - Move common dotfiles to `common` folder
+
+### Removed
+
+- Obsolete shell scripts
 
 ## [0.3.2] - 2025-03-16
 
