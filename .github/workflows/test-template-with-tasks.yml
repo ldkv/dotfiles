@@ -24,7 +24,6 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
         with:
-          python-version-file: "template/.python-version"
           enable-cache: true
       - name: Run tests
         run: make test-template

@@ -13,6 +13,8 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.5.0] - 2025-03-19
+
 ### Added
 
 - Dedicated folder for scripts
