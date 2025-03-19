@@ -6,7 +6,7 @@ from .configs import DOTFILES_PATH, USER_HOME_PATH, Config, commit_updated_chang
 BACKUP_PATH = DOTFILES_PATH / "backups"
 
 
-def update(is_simulator: bool = False, commit_message: str = "Update to latest template version.") -> None:
+def update(is_simulator: bool = False, commit_message: str | None = None) -> None:
     """Update routine is executed after copy and with every update operation.
 
     :param is_simulator: simulator mode used for dev or testing, defaults to False
@@ -15,6 +15,9 @@ def update(is_simulator: bool = False, commit_message: str = "Update to latest t
     config = Config.from_json()
     config.echo()
     backup_then_symlink_dotfiles(config, is_simulator)
+    if commit_message is None:
+        template_version = get_latest_template_version()
+        commit_message = f"Update to template version {template_version}"
     commit_updated_changes(commit_message)
     print("Update completed successfully!")
 
@@ -72,6 +75,15 @@ def get_all_files_in_folder(folder_path: Path) -> list[tuple[Path, Path]]:
         ]
     """
     return [(file.absolute(), file.relative_to(folder_path)) for file in folder_path.glob("**/*") if file.is_file()]
+
+
+def get_latest_template_version() -> str:
+    import yaml
+
+    """Get the latest template version from .copier-answers.yml."""
+    copier_yml_path = DOTFILES_PATH / ".copier-answers.yml"
+    with open(copier_yml_path, "r") as file:
+        return yaml.safe_load(file)["_commit"].strip()
 
 
 if __name__ == "__main__":
