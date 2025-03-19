@@ -3,7 +3,9 @@ alias hg="history -i -D 0 | grep"
 
 # Git aliases
 alias gpt="git push --tags"
+alias gtDl="git tag -d $(git tag -l)"
 
 # Dotfiles aliases
+export DOTFILES_PATH="REPLACE_DOTFILES_PATH_HERE"
 alias dotfiles="cd $DOTFILES_PATH"
 alias dotfiles-update="uvx copier update $DOTFILES_PATH/ --trust -A"
