@@ -1,0 +1,12 @@
+{
+  "omz_plugins": {
+    "zsh-autosuggestions": "https://github.com/zsh-users/zsh-autosuggestions",
+    "fast-syntax-highlighting": "https://github.com/zdharma-continuum/fast-syntax-highlighting.git",
+    "ohmyzsh-full-autoupdate": "https://github.com/Pilaton/OhMyZsh-full-autoupdate.git"
+  },
+  "custom_symlinks": {
+    "windows": {
+      "PowerShell_profile.ps1": "$PROFILE"
+    }
+  }
+}
