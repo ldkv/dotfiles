@@ -3,7 +3,7 @@ alias hg="history -i -D 0 | grep"
 
 # Git aliases
 alias gpt="git push --tags"
-alias gtDl="git tag -d $(git tag -l)"
+alias gtDa='git tag -d $(git tag -l)'
 
 # Dotfiles aliases
 export DOTFILES_PATH="REPLACE_DOTFILES_PATH_HERE"

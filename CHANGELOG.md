@@ -13,6 +13,12 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.5.5] - 2025-03-19
+
+### Fixed
+
+- Wrong quote for zsh aliases with `$`
+
 ## [0.5.4] - 2025-03-19
 
 ### Fixed
