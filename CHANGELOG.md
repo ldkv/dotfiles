@@ -17,6 +17,10 @@ https://keepachangelog.com/en/1.0.0/
 
 - Dedicated folder for scripts
 - New migrations section in `copier.yml` to execute update routine
+- Separate setup script into 3 modules:
+  - `configs.py`: constants and utilities
+  - `setup.py`: for initial setup
+  - `update.py`: for update routine
 
 ### Changed
 
