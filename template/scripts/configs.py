@@ -4,10 +4,12 @@ import json
 import os
 import platform
 import subprocess
+import sys
 from dataclasses import dataclass
 from pathlib import Path
 
 SYSTEM_OS = platform.system().lower()
+PYTHON_VERSION = sys.version
 USER_HOME_PATH = Path.home()
 SCRIPTS_PATH = Path(__file__).parent.resolve()
 DOTFILES_PATH = SCRIPTS_PATH.parent.resolve()
@@ -38,6 +40,12 @@ class Config:
         config_path = self.path()
         with open(config_path, "w") as f:
             json.dump(dataclasses.asdict(self), f, indent=2)
+
+    def echo(self) -> None:
+        print(
+            f"System settings: {SYSTEM_OS=} | {PYTHON_VERSION=} | | {SCRIPTS_PATH=} | {DOTFILES_PATH=} | {USER_HOME_PATH=}"
+        )
+        print(f"Active configurations: {self}")
 
     def get_custom_symlink(self, source_name: str) -> Path | None:
         dest_path = self.custom_symlinks.get(SYSTEM_OS, {}).get(source_name)

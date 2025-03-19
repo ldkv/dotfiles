@@ -11,19 +11,20 @@ def update(is_simulator: bool = False, commit_message: str = "Update to latest t
 
     :param is_simulator: simulator mode used for dev or testing, defaults to False
     """
-    print(f"Executing update routine: {DOTFILES_PATH=} | {is_simulator=}")
-    backup_then_symlink_dotfiles(is_simulator)
+    print(f"Executing update routine: {is_simulator=}")
+    config = Config.from_json()
+    config.echo()
+    backup_then_symlink_dotfiles(config, is_simulator)
     commit_updated_changes(commit_message)
     print("Update completed successfully!")
 
 
-def backup_then_symlink_dotfiles(is_simulator: bool = False) -> None:
+def backup_then_symlink_dotfiles(config: Config, is_simulator: bool = False) -> None:
     """
     Backup and symlink dotfiles.
     By default dotfiles are symlinked to user $HOME folder.
     If is_simulator is True, dotfiles are symlinked to dotfiles parent folder instead.
     """
-    config = Config.from_json()
     symlink_sources = get_existing_symlink_sources()
     # Process symlinks
     for source_path, relative_path in symlink_sources:
