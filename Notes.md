@@ -52,7 +52,6 @@ plugins=(
     fast-syntax-highlighting
     ohmyzsh-full-autoupdate
 )
-
 ```
 
 ### Install theme [powerlevel10k](https://github.com/romkatv/powerlevel10k)
@@ -66,6 +65,23 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$
 - Set `ZSH_THEME="powerlevel10k/powerlevel10k"` in `~/.zshrc`.
 - Run `p10k configure` to configure the theme.
 - A preconfigured `.p10k.zsh` file is available in this repository.
+
+### Install postgresql DB
+
+```bash
+brew install postgresql@17
+echo 'export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"' >> ~/.zshrc
+brew services start postgresql@17
+```
+
+Commands to generate user + password + DB:
+
+```bash
+psql postgres
+CREATE USER postgres WITH SUPERUSER PASSWORD 'postgres';
+CREATE DATABASE db1 WITH OWNER postgres;
+CREATE DATABASE db2 WITH OWNER postgres;
+```
 
 ## Github CLI & Git configuration
 
