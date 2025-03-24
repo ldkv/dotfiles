@@ -18,26 +18,14 @@ install_uv: ## Install uv
         echo "uv is already installed. Skipped."; \
     fi
 
-install_copier: install_uv ## Install Copier
-	uv tool install copier
 
+##@ Scripts
+setup: ## Setup the environment
+	uv run -m scripts.setup
 
-##@ Development and Testing
-SIMULATOR_FOLDER=home-simulator
-COPIER_COMMAND=uvx copier copy --vcs-ref=HEAD --force --trust .
-template: remove-template ## Generate the template for development
-	$(COPIER_COMMAND) $(SIMULATOR_FOLDER)/.dotfiles -d 'simulator=true'
-	@echo "Template generated successfully in $(SIMULATOR_FOLDER)."
+update: ## Update the dotfiles
+	uv run -m scripts.update
 
-remove-template: ## Remove the generated template
-	rm -r -f $(SIMULATOR_FOLDER);
-	@echo "Template removed successfully."
-
-test-template: install_copier ## Test complete template generation with tasks
-	$(COPIER_COMMAND) $(HOME)/.dot
-
-test-template-no-tasks: install_copier ## Test template generation without tasks
-	$(COPIER_COMMAND) $(HOME)/.dot --skip-tasks
 
 
 ##@ Release and Deployment

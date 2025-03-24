@@ -1,9 +1,9 @@
 import shutil
 from pathlib import Path
 
-from .configs import DOTFILES_PATH, USER_HOME_PATH, Config, commit_updated_changes, is_windows
+from .configs import ROOT_PATH, SYMLINKS_PATH, USER_HOME_PATH, Config, commit_updated_changes, is_windows
 
-BACKUP_PATH = DOTFILES_PATH / "backups"
+BACKUP_PATH = ROOT_PATH / "backups"
 
 
 def update(is_simulator: bool = False, commit_message: str | None = None) -> None:
@@ -29,13 +29,13 @@ def replace_dotfiles_path() -> None:
     """Replace correct environment variable DOTFILES_PATH in profile."""
     string_to_replace = "REPLACE_DOTFILES_PATH_HERE"
     if is_windows():
-        file_to_replace = DOTFILES_PATH / "windows" / "PowerShell_profile.ps1"
+        file_to_replace = SYMLINKS_PATH / "windows" / "PowerShell_profile.ps1"
     else:
-        file_to_replace = DOTFILES_PATH / "unix" / ".zsh_aliases"
+        file_to_replace = SYMLINKS_PATH / "unix" / ".zsh_aliases"
 
     with open(file_to_replace, "r") as f:
         content = f.read()
-    new_content = content.replace(string_to_replace, f"{DOTFILES_PATH.as_posix()}")
+    new_content = content.replace(string_to_replace, f"{SYMLINKS_PATH.as_posix()}")
     with open(file_to_replace, "w") as f:
         f.write(new_content)
 
@@ -52,7 +52,7 @@ def backup_then_symlink_dotfiles(config: Config, is_simulator: bool = False) -> 
         target_path = config.get_custom_symlink(source_path.name) or USER_HOME_PATH / relative_path
         # Avoid affecting real target path in simulator mode
         if is_simulator:
-            target_path = DOTFILES_PATH.parent / relative_path
+            target_path = SYMLINKS_PATH.parent / relative_path
         if target_path.exists():
             print(f"Backing up {target_path} to {BACKUP_PATH}")
             backup_path = BACKUP_PATH / relative_path
@@ -72,9 +72,9 @@ def backup_then_symlink_dotfiles(config: Config, is_simulator: bool = False) -> 
 ### Backup and symlink methods
 def get_existing_symlink_sources() -> list[tuple[Path, Path]]:
     """Get all existing symlink sources from common and os-specific folders."""
-    common_path: Path = DOTFILES_PATH / "common"
+    common_path: Path = SYMLINKS_PATH / "common"
     os_specific_folder = "windows" if is_windows() else "unix"
-    os_specific_path = DOTFILES_PATH / os_specific_folder
+    os_specific_path = SYMLINKS_PATH / os_specific_folder
 
     return get_all_files_in_folder(common_path) + get_all_files_in_folder(os_specific_path)
 
@@ -99,7 +99,7 @@ def get_latest_template_version() -> str:
     import yaml
 
     """Get the latest template version from .copier-answers.yml."""
-    copier_yml_path = DOTFILES_PATH / ".copier-answers.yml"
+    copier_yml_path = SYMLINKS_PATH / ".copier-answers.yml"
     with open(copier_yml_path, "r") as file:
         return yaml.safe_load(file)["_commit"].strip()
 

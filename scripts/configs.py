@@ -11,7 +11,8 @@ SYSTEM_OS = platform.system().lower()
 PYTHON_VERSION = sys.version
 USER_HOME_PATH = Path.home()
 SCRIPTS_PATH = Path(__file__).parent.resolve()
-DOTFILES_PATH = SCRIPTS_PATH.parent.resolve()
+ROOT_PATH = SCRIPTS_PATH.parent
+SYMLINKS_PATH = ROOT_PATH / "symlinks"
 
 
 @dataclass
@@ -23,7 +24,7 @@ class Config:
     @classmethod
     def path(cls) -> Path:
         file_name = "configs.json"
-        return SCRIPTS_PATH / file_name
+        return ROOT_PATH / file_name
 
     @classmethod
     def from_json(cls) -> "Config":
@@ -42,7 +43,7 @@ class Config:
 
     def echo(self) -> None:
         print(
-            f"System settings: {SYSTEM_OS=} | {PYTHON_VERSION=} | | {SCRIPTS_PATH=} | {DOTFILES_PATH=} | {USER_HOME_PATH=}"
+            f"System settings: {SYSTEM_OS=} | {PYTHON_VERSION=} | | {SCRIPTS_PATH=} | {SYMLINKS_PATH=} | {USER_HOME_PATH=}"
         )
         print(f"Active configurations: {self}")
 

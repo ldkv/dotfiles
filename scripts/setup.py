@@ -3,8 +3,7 @@ import os
 import shutil
 from pathlib import Path
 
-from .configs import DOTFILES_PATH, USER_HOME_PATH, Config, is_windows, run_command
-from .update import update
+from .configs import SYMLINKS_PATH, USER_HOME_PATH, Config, is_windows, run_command
 
 OMZ_HOME = Path(os.environ.get("ZSH", USER_HOME_PATH / ".oh-my-zsh"))
 OMZ_CUSTOM = Path(os.environ.get("ZSH_CUSTOM", OMZ_HOME / "custom"))
@@ -22,9 +21,8 @@ def setup(is_simulator: bool = False) -> None:
         install_powerlevel10k_theme()
         install_omz_plugins(config.omz_plugins)
 
-    init_git_repository()
     print("Setup completed successfully!")
-    update(is_simulator, "Initial commit with dotfiles template.")
+    # update(is_simulator, "Initial commit with dotfiles template.")
 
 
 def install_zsh() -> None:
@@ -77,7 +75,7 @@ def install_omz_plugins(omz_plugins: dict[str, str]) -> None:
 
 def init_git_repository() -> None:
     """Initialize git repository if not already initialized."""
-    if (DOTFILES_PATH / ".git").exists():
+    if (SYMLINKS_PATH / ".git").exists():
         print("git repository is already initialized.")
         return
 
