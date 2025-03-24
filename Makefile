@@ -1,11 +1,12 @@
 #!make
 
-.PHONY: help template version
+.PHONY: help template
 
 .DEFAULT_GOAL := help
 
 help: ## show help message
 	@awk 'BEGIN {FS = ":.*##"; printf "\nUsage:\n  make \033[36m\033[0m\n"} /^[$$()% 0-9a-zA-Z_-]+:.*?##/ { printf "  \033[36m%-15s\033[0m %s\n", $$1, $$2 } /^##@/ { printf "\n\033[1m%s\033[0m\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
+
 
 ##@ Pre-requisites
 install_uv: ## Install uv
@@ -40,14 +41,15 @@ test-template-no-tasks: install_copier ## Test template generation without tasks
 
 
 ##@ Release and Deployment
-version: ## Get current project version
-	$(eval version:=$(shell cat VERSION))
-	@echo "Current version is: $(version)"
-
-bump: version ## Commit version bump changes for production
-	git add VERSION CHANGELOG.md
-	git diff --quiet && git diff --staged --quiet || git commit -m "Release $(version)"
-	git diff --quiet origin/HEAD || git push origin HEAD
+bump: ## Commit version bump for production
+	@if [ -z $(version) ]; then \
+		echo "version not provided, skipping bump."; \
+		echo "Example: make bump version=0.4.0"; \
+		exit 1; \
+	else \
+		bump-my-version bump --new-version $(version) -vv; \
+		git push; \
+	fi
 
 gh-release: bump ## Release a new version using gh CLI
 	gh release create $(version) --generate-notes

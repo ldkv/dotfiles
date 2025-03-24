@@ -13,6 +13,13 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Added
+
+- Add configurations for bump-my-version with `pyproject.toml`
+### Removed
+
+- Obsolete `VERSION` file
+
 ## [0.5.5] - 2025-03-19
 
 ### Fixed
