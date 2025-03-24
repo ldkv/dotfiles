@@ -4,8 +4,12 @@ alias hg="history -i -D 0 | grep"
 # Git aliases
 alias gpt="git push --tags"
 alias gtDa='git tag -d $(git tag -l)'
+alias gw="git config --get remote.origin.url | sed 's|git@github.com:|https://github.com/|' | xargs open"
 
 # Dotfiles aliases
 export DOTFILES_PATH="REPLACE_DOTFILES_PATH_HERE"
 alias dotfiles="cd $DOTFILES_PATH"
 alias dotfiles-update="uvx copier update $DOTFILES_PATH/ --trust -A"
+
+# Python venv - activate local venv
+alias venv=". .venv/bin/activate"
