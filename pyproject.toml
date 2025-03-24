@@ -1,0 +1,28 @@
+[project]
+name = "dotfiles"
+version = "v0.0.0" # See current_version below
+requires-python = ">=3.12"
+description = "Template to manage dotfiles"
+readme = "README.md"
+authors = [{ name = "Vu LE", email = "ledkvu@gmail.com" }]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: Other/Proprietary License",
+    "Operating System :: OS Independent",
+]
+
+[tool.uv]
+package = false
+
+
+# Automatically update version in pyproject.toml and CHANGELOG.md
+# https://callowayproject.github.io/bump-my-version/
+[tool.bumpversion]
+current_version = "v0.5.5"
+allow_dirty = false
+commit = true
+
+[[tool.bumpversion.files]]
+filename = "CHANGELOG.md"
+search = "[Unreleased]\n\n###"
+replace = "[Unreleased]\n\n## [{new_version}] - {now:%Y-%m-%d}\n\n###"
