@@ -17,6 +17,10 @@ https://keepachangelog.com/en/1.0.0/
 
 - Add configurations for bump-my-version with `pyproject.toml`
 - New PATH for MacOS PostgreSQL
+- New aliases:
+  - `gw`: open current repo in browser
+  - `venv`: activate local venv
+
 ### Removed
 
 - Obsolete `VERSION` file
