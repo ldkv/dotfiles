@@ -2,3 +2,4 @@ __pycache__/
 home-simulator/
 .dev/
 .DS_Store
+.venv/

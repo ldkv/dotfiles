@@ -132,5 +132,6 @@ eval "$(uvx --generate-shell-completion zsh)"
 ##@ Environment variables
 {%- if _copier_conf.os == "macos" %}
 export PATH=$PATH:/opt/homebrew/bin # Homebrew on MacOS
+export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES # Fix for Python multiprocessing
 {%- endif %}

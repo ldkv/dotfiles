@@ -16,6 +16,7 @@ https://keepachangelog.com/en/1.0.0/
 ### Added
 
 - Add configurations for bump-my-version with `pyproject.toml`
+- New PATH for MacOS PostgreSQL
 ### Removed
 
 - Obsolete `VERSION` file
