@@ -13,6 +13,8 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.7.2] - 2025-03-26
+
 ### Fixed
 
 - Template condition in `.zsh_aliases`
