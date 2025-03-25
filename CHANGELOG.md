@@ -13,6 +13,10 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Fixed
+
+- Function name `OpenGithubRepo` in `PowerShell_profile.ps1`
+
 ## [0.7.3] - 2025-03-26
 
 ### Added
