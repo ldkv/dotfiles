@@ -18,7 +18,7 @@ package = false
 # Automatically update version in pyproject.toml and CHANGELOG.md
 # https://callowayproject.github.io/bump-my-version/
 [tool.bumpversion]
-current_version = "v0.6.0"
+current_version = "v0.7.0"
 allow_dirty = false
 commit = true
 
