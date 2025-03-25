@@ -20,17 +20,17 @@ install_uv: ## Install uv
 
 
 ##@ Scripts
-SETUP_COMMAND = uv run -m scripts.setup
-UPDATE_COMMAND = uv run -m scripts.update
+SETUP_COMMAND = uv run -m src.setup
+UPDATE_COMMAND = uv run -m src.update
 
-setup: ## Setup the environment
+setup: install_uv ## Setup the environment
 	$(SETUP_COMMAND)
 	$(UPDATE_COMMAND)
 
 update: ## Backup then symlink dotfiles
 	$(UPDATE_COMMAND)
 
-simu-setup: ## Setup in simulator mode
+simu-setup: install_uv ## Setup in simulator mode
 	$(SETUP_COMMAND) --simulator
 
 simu-update: ## Update in simulator mode

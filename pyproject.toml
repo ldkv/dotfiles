@@ -10,9 +10,7 @@ classifiers = [
     "License :: Other/Proprietary License",
     "Operating System :: OS Independent",
 ]
-
-[tool.uv]
-package = false
+dependencies = []
 
 
 # Automatically update version in pyproject.toml and CHANGELOG.md

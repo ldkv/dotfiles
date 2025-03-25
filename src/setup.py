@@ -3,7 +3,7 @@ import os
 import shutil
 from pathlib import Path
 
-from scripts.configs import USER_HOME_PATH, Config, is_windows, run_command
+from .configs import USER_HOME_PATH, Config, is_windows, run_command
 
 OMZ_HOME = Path(os.environ.get("ZSH", USER_HOME_PATH / ".oh-my-zsh"))
 OMZ_CUSTOM = Path(os.environ.get("ZSH_CUSTOM", OMZ_HOME / "custom"))

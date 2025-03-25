@@ -3,7 +3,7 @@ import shutil
 from pathlib import Path
 from typing import NamedTuple
 
-from scripts.configs import ROOT_PATH, USER_HOME_PATH, Config, is_windows
+from .configs import ROOT_PATH, USER_HOME_PATH, Config, is_windows
 
 
 class SymlinkMapping(NamedTuple):
