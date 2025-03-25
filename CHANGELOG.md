@@ -13,6 +13,8 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.7.5] - 2025-03-26
+
 ### Changed
 
 - Enable creation of local tag when bumping version

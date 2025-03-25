@@ -60,6 +60,7 @@ bump: ## Commit version bump for production
 	fi
 
 gh-release: bump ## Release a new version using gh CLI
+	git push --tags
 	gh release create $(version) --generate-notes
 
 
