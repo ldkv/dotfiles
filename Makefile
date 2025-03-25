@@ -23,14 +23,14 @@ install_copier: install_uv ## Install Copier
 
 
 ##@ Development and Testing
-SIMULATOR_FOLDER=home-simulator
+SIMULATOR_DIR=home-simulator
 COPIER_COMMAND=uvx copier copy --vcs-ref=HEAD --force --trust .
 template: remove-template ## Generate the template for development
-	$(COPIER_COMMAND) $(SIMULATOR_FOLDER)/.dotfiles -d 'simulator=true'
-	@echo "Template generated successfully in $(SIMULATOR_FOLDER)."
+	$(COPIER_COMMAND) $(SIMULATOR_DIR)/.dotfiles -d 'simulator=true'
+	@echo "Template generated successfully in $(SIMULATOR_DIR)."
 
 remove-template: ## Remove the generated template
-	rm -r -f $(SIMULATOR_FOLDER);
+	rm -r -f $(SIMULATOR_DIR);
 	@echo "Template removed successfully."
 
 test-template: install_copier ## Test complete template generation with tasks
@@ -41,6 +41,14 @@ test-template-no-tasks: install_copier ## Test template generation without tasks
 
 
 ##@ Release and Deployment
+PROD_DIR=prod
+PROD_COMMAND=uvx copier copy --trust .
+copy-template: ## Initialize the template as a subfolder
+	$(PROD_COMMAND) $(PROD_DIR)
+
+update-template: ## Update the production template
+	uvx copier update $(PROD_DIR) --trust -A
+
 bump: ## Commit version bump for production
 	@if [ -z $(version) ]; then \
 		echo "version not provided, skipping bump."; \

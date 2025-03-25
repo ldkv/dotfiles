@@ -13,6 +13,11 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Added
+
+- Allow to generate production dotfiles as a subfolder of the repository
+
+
 ## [0.6.0] - 2025-03-24
 
 ### Added
