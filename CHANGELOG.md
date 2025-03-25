@@ -17,6 +17,9 @@ https://keepachangelog.com/en/1.0.0/
 
 - Allow to generate production dotfiles as a subfolder of the repository
 
+### Changed
+
+- Separate code for backup and symlink operations in `update.py`
 
 ## [0.6.0] - 2025-03-24
 

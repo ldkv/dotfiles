@@ -1,9 +1,14 @@
 import shutil
 from pathlib import Path
+from typing import NamedTuple
 
 from .configs import DOTFILES_PATH, USER_HOME_PATH, Config, commit_updated_changes, is_windows
 
-BACKUP_PATH = DOTFILES_PATH / "backups"
+
+class SymlinkMapping(NamedTuple):
+    source_path: Path
+    relative_path: Path
+    target_path: Path
 
 
 def update(is_simulator: bool = False, commit_message: str | None = None) -> None:
@@ -12,16 +17,20 @@ def update(is_simulator: bool = False, commit_message: str | None = None) -> Non
     :param is_simulator: simulator mode used for dev or testing, defaults to False
     """
     print(f"Executing update routine: {is_simulator=}")
-    config = Config.from_json()
-    config.echo()
+    configs = Config.from_json()
+    configs.echo()
 
     # Tasks
     replace_dotfiles_path()
-    backup_then_symlink_dotfiles(config, is_simulator)
+    symlink_mappings = generate_symlink_mappings(configs, is_simulator)
+    backup_dotfiles(symlink_mappings)
+    symlink_dotfiles(symlink_mappings)
+    # Automatically commit updated changes
     if commit_message is None:
         template_version = get_latest_template_version()
         commit_message = f"Update to template version {template_version}"
     commit_updated_changes(commit_message)
+
     print("Update completed successfully!")
 
 
@@ -40,39 +49,50 @@ def replace_dotfiles_path() -> None:
         f.write(new_content)
 
 
-def backup_then_symlink_dotfiles(config: Config, is_simulator: bool = False) -> None:
+def backup_dotfiles(symlink_mappings: list[SymlinkMapping]) -> None:
+    backup_dir = DOTFILES_PATH / "backups"
+    for symlink in symlink_mappings:
+        if not symlink.target_path.exists():
+            print(f"Target path {symlink.target_path} doesn't exist, skipping backup")
+            continue
+
+        backup_path = backup_dir / symlink.relative_path
+        print(f"Backing up {symlink.target_path} to {backup_path}")
+        backup_path.parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(symlink.target_path, backup_path)
+        symlink.target_path.unlink()
+
+
+def symlink_dotfiles(symlink_mappings: list[SymlinkMapping]) -> None:
+    for symlink in symlink_mappings:
+        target_path = symlink.target_path
+        target_path.parent.mkdir(parents=True, exist_ok=True)
+        print(f"Symlinking: {symlink.source_path} -> {target_path}")
+        target_path.symlink_to(symlink.source_path)
+
+
+def generate_symlink_mappings(config: Config, is_simulator: bool = False) -> list[SymlinkMapping]:
     """
-    Backup and symlink dotfiles.
+    Generate all symlink mappings with target path.
     By default dotfiles are symlinked to user $HOME folder.
-    If is_simulator is True, dotfiles are symlinked to dotfiles parent folder instead.
+    In simulator mode, target paths point to a relative folder instead.
     """
     symlink_sources = get_existing_symlink_sources()
-    # Process symlinks
+    symlink_mappings = []
     for source_path, relative_path in symlink_sources:
         target_path = config.get_custom_symlink(source_path.name) or USER_HOME_PATH / relative_path
         # Avoid affecting real target path in simulator mode
         if is_simulator:
             target_path = DOTFILES_PATH.parent / relative_path
-        if target_path.exists():
-            print(f"Backing up {target_path} to {BACKUP_PATH}")
-            backup_path = BACKUP_PATH / relative_path
-            backup_path.parent.mkdir(parents=True, exist_ok=True)
-            shutil.copy2(target_path, backup_path)
-            target_path.unlink()
-        else:
-            target_path.parent.mkdir(parents=True, exist_ok=True)
 
-        print(f"Symlinking: {source_path} -> {target_path}")
-        target_path.symlink_to(source_path)
-        config.active_symlinks[source_path.as_posix()] = target_path.as_posix()
+        symlink_mappings.append(SymlinkMapping(source_path, relative_path, target_path))
 
-    config.to_json()
+    return symlink_mappings
 
 
-### Backup and symlink methods
 def get_existing_symlink_sources() -> list[tuple[Path, Path]]:
     """Get all existing symlink sources from common and os-specific folders."""
-    common_path: Path = DOTFILES_PATH / "common"
+    common_path = DOTFILES_PATH / "common"
     os_specific_folder = "windows" if is_windows() else "unix"
     os_specific_path = DOTFILES_PATH / os_specific_folder
 
