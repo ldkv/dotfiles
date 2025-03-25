@@ -17,6 +17,9 @@ https://keepachangelog.com/en/1.0.0/
 
 - Alias `gw` for PowerShell to open current repository in browser
 
+### Fixed
+
+- Open command in `.zsh_aliases`
 
 ## [0.7.2] - 2025-03-26
 
