@@ -13,6 +13,8 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.7.1] - 2025-03-26
+
 ### Added
 
 - Question to detect if machine is running under WSL
