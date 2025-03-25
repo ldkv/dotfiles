@@ -32,3 +32,14 @@ function ActivateVenv {
     }
 }
 Set-Alias venv ActivateVenv
+# Git alias to open current repository in browser
+function open_github_repo {
+    $repoUrl = git config --get remote.origin.url
+    if ($repoUrl) {
+        $webUrl = $repoUrl -replace 'git@github.com:', 'https://github.com/'
+        Start-Process $webUrl
+    } else {
+        Write-Host "No Git repository found in current directory."
+    }
+}
+Set-Alias gw OpenGithubRepo

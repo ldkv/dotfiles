@@ -13,6 +13,11 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Added
+
+- Alias `gw` for PowerShell to open current repository in browser
+
+
 ## [0.7.2] - 2025-03-26
 
 ### Fixed
