@@ -3,7 +3,7 @@ import os
 import shutil
 from pathlib import Path
 
-from .configs import SYMLINKS_PATH, USER_HOME_PATH, Config, is_windows, run_command
+from scripts.configs import USER_HOME_PATH, Config, is_windows, run_command
 
 OMZ_HOME = Path(os.environ.get("ZSH", USER_HOME_PATH / ".oh-my-zsh"))
 OMZ_CUSTOM = Path(os.environ.get("ZSH_CUSTOM", OMZ_HOME / "custom"))
@@ -15,14 +15,15 @@ def setup(is_simulator: bool = False) -> None:
     config.echo()
 
     # Tasks
-    if not is_windows():
+    if is_windows():
+        pass
+    else:
         install_zsh()
         install_oh_my_zsh()
         install_powerlevel10k_theme()
         install_omz_plugins(config.omz_plugins)
 
     print("Setup completed successfully!")
-    # update(is_simulator, "Initial commit with dotfiles template.")
 
 
 def install_zsh() -> None:
@@ -71,16 +72,6 @@ def install_omz_plugins(omz_plugins: dict[str, str]) -> None:
 
         print(f"Installing {plugin_name} plugin...")
         run_command(f"git clone {plugin_url} {plugin_path}")
-
-
-def init_git_repository() -> None:
-    """Initialize git repository if not already initialized."""
-    if (SYMLINKS_PATH / ".git").exists():
-        print("git repository is already initialized.")
-        return
-
-    print("Initializing git repository...")
-    run_command("git init .")
 
 
 if __name__ == "__main__":

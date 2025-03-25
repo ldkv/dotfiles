@@ -20,12 +20,21 @@ install_uv: ## Install uv
 
 
 ##@ Scripts
+SETUP_COMMAND = uv run -m scripts.setup
+UPDATE_COMMAND = uv run -m scripts.update
+
 setup: ## Setup the environment
-	uv run -m scripts.setup
+	$(SETUP_COMMAND)
+	$(UPDATE_COMMAND)
 
-update: ## Update the dotfiles
-	uv run -m scripts.update
+update: ## Backup then symlink dotfiles
+	$(UPDATE_COMMAND)
 
+simu-setup: ## Setup in simulator mode
+	$(SETUP_COMMAND) --simulator
+
+simu-update: ## Update in simulator mode
+	$(UPDATE_COMMAND) --simulator
 
 
 ##@ Release and Deployment

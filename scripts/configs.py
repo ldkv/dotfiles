@@ -12,7 +12,6 @@ PYTHON_VERSION = sys.version
 USER_HOME_PATH = Path.home()
 SCRIPTS_PATH = Path(__file__).parent.resolve()
 ROOT_PATH = SCRIPTS_PATH.parent
-SYMLINKS_PATH = ROOT_PATH / "symlinks"
 
 
 @dataclass
@@ -42,9 +41,7 @@ class Config:
             json.dump(dataclasses.asdict(self), f, indent=2)
 
     def echo(self) -> None:
-        print(
-            f"System settings: {SYSTEM_OS=} | {PYTHON_VERSION=} | | {SCRIPTS_PATH=} | {SYMLINKS_PATH=} | {USER_HOME_PATH=}"
-        )
+        print(f"System settings: {SYSTEM_OS=} | {PYTHON_VERSION=} | {SCRIPTS_PATH=} | {USER_HOME_PATH=}")
         print(f"Active configurations: {self}")
 
     def get_custom_symlink(self, source_name: str) -> Path | None:
