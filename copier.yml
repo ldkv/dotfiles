@@ -11,6 +11,11 @@ user_email:
   help: "Email for git config"
   default: "ledkvu@gmail.com"
 
+is_wsl:
+  type: bool
+  help: "Is WSL"
+  default: false
+
 _tasks:
   - name: "Oneshot setup after first copy"
     command: |

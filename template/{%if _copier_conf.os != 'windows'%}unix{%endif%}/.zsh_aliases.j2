@@ -4,6 +4,7 @@ alias hg="history -i -D 0 | grep"
 # Git aliases
 alias gpt="git push --tags"
 alias gtDa='git tag -d $(git tag -l)'
+{%- if _copier_conf.is_wsl %}export BROWSER='/mnt/c/Program Files/Mozilla Firefox/firefox.exe'{%- endif %}
 alias gw="git config --get remote.origin.url | sed 's|git@github.com:|https://github.com/|' | xargs open"
 
 # Dotfiles aliases

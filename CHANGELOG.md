@@ -13,6 +13,15 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Added
+
+- Question to detect if machine is running under WSL
+- Define specific environment variable for browser on WSL
+
+### Changed
+
+- Convert `.zsh_aliases` to template
+
 ## [0.7.0] - 2025-03-26
 
 ### Added
