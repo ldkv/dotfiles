@@ -13,6 +13,12 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Changed
+
+- Enable creation of local tag when bumping version
+
+## [0.7.4] - 2025-03-26
+
 ### Fixed
 
 - Function name `OpenGithubRepo` in `PowerShell_profile.ps1`

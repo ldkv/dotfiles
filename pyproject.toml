@@ -21,6 +21,7 @@ package = false
 current_version = "v0.7.3"
 allow_dirty = false
 commit = true
+tag = true
 
 [[tool.bumpversion.files]]
 filename = "CHANGELOG.md"
