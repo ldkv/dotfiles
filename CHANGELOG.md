@@ -13,6 +13,8 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.7.6] - 2025-04-18
+
 ### Changed
 
 - Enable `autoSetupRemote` in gitconfig
