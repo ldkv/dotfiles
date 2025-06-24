@@ -16,12 +16,6 @@ To install `uv`, run:
 curl -LsSf https://astral.sh/uv/install.sh | sh
 ```
 
-Then install `copier` using `uv` tool:
-
-```bash
-uv tool install copier
-```
-
 ## Features
 
 This template includes the following features:
