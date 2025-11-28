@@ -50,8 +50,8 @@ def install_oh_my_zsh() -> None:
         print("oh-my-zsh is already installed. Skipped.")
         return
 
-    print("Installing oh-my-zsh...")
-    run_command('sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"')
+    print("Installing oh-my-zsh unattended...")
+    run_command('RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"')
 
 
 def install_powerlevel10k_theme() -> None:
