@@ -55,7 +55,7 @@ bump: ## Commit version bump for production
 		echo "Example: make bump version=0.4.0"; \
 		exit 1; \
 	else \
-		bump-my-version bump --new-version $(version) -vv; \
+		uvx bump-my-version bump --new-version $(version) -vv; \
 		git push; \
 	fi
 

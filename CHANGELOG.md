@@ -13,6 +13,19 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Added
+
+- New omz plugin `task` for Taskfile
+
+### Changed
+
+- Configure IDE as default git editor in `gitconfig`
+- Use `uvx` to execute `bump-my-version`
+
+### Fixed
+
+- Allow to install `omz` unattended
+
 ## [0.7.6] - 2025-04-18
 
 ### Changed
