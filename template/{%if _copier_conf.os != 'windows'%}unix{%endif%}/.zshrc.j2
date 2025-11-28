@@ -83,6 +83,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 plugins=(
   git
   gh
+  task
   z
   zsh-autosuggestions
   fast-syntax-highlighting
@@ -134,4 +135,10 @@ eval "$(uvx --generate-shell-completion zsh)"
 export PATH=$PATH:/opt/homebrew/bin # Homebrew on MacOS
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES # Fix for Python multiprocessing
+
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=($HOME/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
 {%- endif %}
