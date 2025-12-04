@@ -1,6 +1,6 @@
 [project]
 name = "dotfiles"
-version = "v0.0.0" # See current_version below
+version = "0.0.0" # See current_version below
 requires-python = ">=3.12"
 description = "Template to manage dotfiles"
 readme = "README.md"
@@ -18,7 +18,7 @@ package = false
 # Automatically update version in pyproject.toml and CHANGELOG.md
 # https://callowayproject.github.io/bump-my-version/
 [tool.bumpversion]
-current_version = "v0.7.7"
+current_version = "0.7.7"
 allow_dirty = false
 commit = true
 tag = true

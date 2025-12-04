@@ -56,7 +56,7 @@ tasks:
     deps: [validate-version]
     cmds:
       - echo "Bumping version to {{.version}}"
-      - uvx bump-my-version bump --new-version $(version) -vv
+      - uvx bump-my-version bump --new-version {{.version}} -vv
       - git push
 
   gh-release:
