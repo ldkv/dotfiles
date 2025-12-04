@@ -13,6 +13,12 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Added
+
+- Taskfile and configurations in `$HOME`
+- Wrapper for `uv` to centralize venvs
+- Convert `Makefile` commands to `Taskfile` tasks
+
 ## [0.7.7] - 2025-11-28
 
 ### Added
