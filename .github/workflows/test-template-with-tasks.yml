@@ -20,10 +20,13 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
-      - name: Install uv
-        uses: astral-sh/setup-uv@v5
+      - uses: actions/checkout@v6
+
+      - uses: astral-sh/setup-uv@v7
         with:
           enable-cache: true
+
+      - uses: go-task/setup-task@v1
+
       - name: Run tests
-        run: make test-template
+        run: task test-template

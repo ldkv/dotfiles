@@ -1,0 +1,67 @@
+version: "3"
+
+vars:
+  SIMULATOR_DIR: home-simulator
+  COPIER_COMMAND: uvx copier copy --vcs-ref=HEAD --force --trust .
+  PROD_DIR: prod
+  PROD_COMMAND: uvx copier copy --trust .
+
+tasks:
+  install-copier:
+    desc: Install Copier
+    deps: [install-uv]
+    cmds:
+      - uv tool install copier
+
+  template:
+    desc: Generate the template for development
+    deps: [remove-template]
+    cmds:
+      - '{{.COPIER_COMMAND}} {{.SIMULATOR_DIR}}/.dotfiles -d "simulator=true"'
+      - 'echo "Template generated successfully in {{.SIMULATOR_DIR}}."'
+
+  remove-template:
+    desc: Remove the generated template
+    cmds:
+      - "rm -rf {{.SIMULATOR_DIR}}"
+      - 'echo "Template removed successfully."'
+
+  test-template:
+    desc: Test complete template generation with tasks
+    cmd: "{{.COPIER_COMMAND}} $HOME/.dot"
+
+  test-template-no-tasks:
+    desc: Test template generation without tasks
+    cmd: "{{.COPIER_COMMAND}} $HOME/.dot --skip-tasks"
+
+  copy-template:
+    desc: Initialize the template as a subfolder
+    cmd: "{{.PROD_COMMAND}} {{.PROD_DIR}}"
+
+  update-template:
+    desc: Update the production template
+    cmd: "uvx copier update {{.PROD_DIR}} --trust -A"
+
+  validate-version:
+    internal: true
+    desc: "Validates that .version is in SemVer format"
+    requires:
+      vars: [version]
+    preconditions:
+      - sh: 'echo "{{.version}}" | grep -Eq "^[0-9]+\.[0-9]+\.[0-9]+"'
+        msg: "Error: '{{.version}}' is not a valid SemVer format (e.g., 1.2.3)."
+
+  bump:
+    desc: Commit version bump for production
+    deps: [validate-version]
+    cmds:
+      - echo "Bumping version to {{.version}}"
+      - uvx bump-my-version bump --new-version $(version) -vv
+      - git push
+
+  gh-release:
+    desc: Release a new version using gh CLI
+    deps: [bump]
+    cmds:
+      - git push --tags
+      - gh release create "{{.version}}" --generate-notes
