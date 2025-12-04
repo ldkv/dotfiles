@@ -1,0 +1,7 @@
+version: "3"
+
+includes:
+  all-collections:
+    taskfile: "https://github.com/ldkv/taskfiles.git//collections/Taskfile.yml?ref=refs/tags/v1"
+    dir: .
+    flatten: true
