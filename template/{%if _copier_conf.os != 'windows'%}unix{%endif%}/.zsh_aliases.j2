@@ -13,6 +13,3 @@ alias gw="git config --get remote.origin.url | sed 's|git@github.com:|https://gi
 export DOTFILES_PATH="REPLACE_DOTFILES_PATH_HERE"
 alias dotfiles="cd $DOTFILES_PATH"
 alias dotfiles-update="uvx copier update $DOTFILES_PATH/ --trust -A"
-
-# Python venv - activate local venv
-alias venv=". .venv/bin/activate"
