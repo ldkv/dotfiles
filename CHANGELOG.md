@@ -13,6 +13,8 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.8.0] - 2025-12-05
+
 ### Added
 
 - Taskfile and configurations in `$HOME`
