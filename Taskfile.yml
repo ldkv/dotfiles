@@ -7,6 +7,8 @@ vars:
   PROD_COMMAND: uvx copier copy --trust .
 
 tasks:
+  default: task --list-all
+
   install-copier:
     desc: Install Copier
     deps: [install-uv]

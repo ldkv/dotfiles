@@ -6,7 +6,8 @@
   },
   "custom_symlinks": {
     "windows": {
-      "PowerShell_profile.ps1": "$PROFILE"
+      "PowerShell_profile.ps1": "$PROFILE",
+      "Taskfile.yml": "D:\\dev\\"
     }
   }
 }
