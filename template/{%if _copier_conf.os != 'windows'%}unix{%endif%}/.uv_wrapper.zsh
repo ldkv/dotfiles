@@ -17,22 +17,17 @@ function generate_hash() {
     echo "$target_venv"
 }
 
-function uv() {
-    # List of uv commands that require/interact with an environment
-    local venv_commands=("sync" "run" "add" "remove" "build" "publish" "lock" "tree" "format" "pip")
+function venv() {
+    source $UV_PROJECT_ENVIRONMENT/bin/activate
+}
 
-    # ${venv_commands[(r)$1]} is Zsh specific syntax to check existence in array
-    # Pass through commands like 'uv tool', 'uv self', 'uv python' directly
-    if [[ ${venv_commands[(r)$1]} == "$1" ]]; then
-        mkdir -p "$UV_CENTRAL_VENVS"
-        local target_venv=$(generate_hash)
-        UV_PROJECT_ENVIRONMENT="$target_venv" command uv "$@"
-    else
-        command uv "$@"
+function _auto_export_centralized_venv() {
+    if [[ -f "pyproject.toml" ]]; then
+        target_venv=$(generate_hash)
+        export UV_PROJECT_ENVIRONMENT="$target_venv"
     fi
 }
 
-function venv() {
-    local target_venv=$(generate_hash)
-    source ${target_venv}/bin/activate
-}
+autoload -U add-zsh-hook
+add-zsh-hook chpwd _auto_export_centralized_venv
+_auto_export_centralized_venv
