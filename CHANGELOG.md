@@ -13,6 +13,14 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+### Added
+
+- Taskfile to Windows
+
+### Changed
+
+- Improve `uv_wrapper` script
+
 ## [0.8.0] - 2025-12-05
 
 ### Added
