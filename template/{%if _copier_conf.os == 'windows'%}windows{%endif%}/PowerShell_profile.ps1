@@ -14,6 +14,9 @@ Invoke-Expression (&starship init powershell)
 (& uv generate-shell-completion powershell) | Out-String | Invoke-Expression
 (& uvx --generate-shell-completion powershell) | Out-String | Invoke-Expression
 
+## Taskfile completion
+(&task --completion powershell) | Out-String | Invoke-Expression
+
 ## git aliases
 Import-Module git-aliases -DisableNameChecking
 
@@ -32,6 +35,7 @@ function ActivateVenv {
     }
 }
 Set-Alias venv ActivateVenv
+
 # Git alias to open current repository in browser
 function OpenGithubRepo {
     $repoUrl = git config --get remote.origin.url
