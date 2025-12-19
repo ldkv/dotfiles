@@ -13,6 +13,8 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.9.2] - 2025-12-19
+
 ### Added
 
 - Enable `task` auto-completion in Windows PowerShell
