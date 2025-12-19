@@ -13,6 +13,8 @@ https://keepachangelog.com/en/1.0.0/
 
 ## [Unreleased]
 
+## [0.9.1] - 2025-12-19
+
 ### Changed
 
 - Move Taskfile to `common` folder for Windows and Unix
