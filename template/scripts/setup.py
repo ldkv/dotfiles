@@ -18,6 +18,7 @@ def setup(is_simulator: bool = False) -> None:
     # Tasks
     if not is_windows():
         install_zsh()
+        switch_to_zsh()
         install_oh_my_zsh()
         install_powerlevel10k_theme()
         install_omz_plugins(config.omz_plugins)
@@ -45,13 +46,29 @@ def install_zsh() -> None:
     raise Exception("Unsupported package manager. Please install zsh manually.")
 
 
+def switch_to_zsh() -> None:
+    current_shell = os.environ.get("SHELL", "")
+    if "zsh" in current_shell:
+        print("zsh is already the default shell. Skipped.")
+        return
+
+    print("Switching default shell to zsh...")
+    zsh_path = shutil.which("zsh")
+    if not zsh_path:
+        raise Exception("zsh is not installed. Cannot switch shell.")
+
+    run_command(f"chsh -s {zsh_path}")
+
+
 def install_oh_my_zsh() -> None:
     if OMZ_HOME.exists():
         print("oh-my-zsh is already installed. Skipped.")
         return
 
     print("Installing oh-my-zsh unattended...")
-    run_command('RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"')
+    run_command(
+        'RUNZSH=no CHSH=no sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"'
+    )
 
 
 def install_powerlevel10k_theme() -> None:
