@@ -1,0 +1,14 @@
+{{- if eq .chezmoi.os "windows" -}}
+# Copy files listed in .chezmoidata/outside_home.yaml to their targets.
+$ErrorActionPreference = "Stop"
+{{ range .outside_home -}}
+{{- $target := index .targets $.chezmoi.os -}}
+{{- if $target }}
+# {{ .source }} sha256: {{ include .source | sha256sum }}
+$target = "{{ $target | replace "{dev_dir}" $.dev_dir }}"
+New-Item -ItemType Directory -Force -Path (Split-Path $target) | Out-Null
+Copy-Item -Force '{{ joinPath $.chezmoi.sourceDir .source }}' $target
+Write-Host "Deployed $target"
+{{- end }}
+{{- end }}
+{{- end }}

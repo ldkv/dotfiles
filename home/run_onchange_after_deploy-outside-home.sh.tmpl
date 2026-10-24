@@ -1,0 +1,15 @@
+{{- if ne .chezmoi.os "windows" -}}
+#!/bin/sh
+# Copy files listed in .chezmoidata/outside_home.yaml to their targets.
+set -eu
+{{ range .outside_home -}}
+{{- $target := index .targets $.chezmoi.os -}}
+{{- if $target }}
+# {{ .source }} sha256: {{ include .source | sha256sum }}
+target={{ $target | replace "{dev_dir}" $.dev_dir | quote }}
+mkdir -p "$(dirname "$target")"
+cp {{ joinPath $.chezmoi.sourceDir .source | quote }} "$target"
+echo "Deployed $target"
+{{- end }}
+{{- end }}
+{{- end }}

@@ -1,0 +1,14 @@
+# History searching
+alias hg="history -i -D 0 | grep"
+
+# Git aliases
+alias gpt="git push --tags"
+alias gtDa='git tag -d $(git tag -l)'
+{{- if .is_wsl }}
+export BROWSER='/mnt/c/Program Files/Mozilla Firefox/firefox.exe'
+{{- end }}
+alias gw="git config --get remote.origin.url | sed 's|git@github.com:|https://github.com/|' | xargs {{ if eq .chezmoi.os "darwin" }}open{{ else }}sensible-browser{{ end }}"
+
+# Dotfiles aliases
+alias dotfiles="chezmoi cd"
+alias dotfiles-update="chezmoi update"

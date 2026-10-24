@@ -1,0 +1,44 @@
+{{- if ne .chezmoi.os "windows" -}}
+#!/bin/sh
+# Install the tools the shell config depends on, then make zsh the login shell.
+set -eu
+
+missing=""
+for cmd in zsh gh task; do
+    command -v "$cmd" >/dev/null 2>&1 || missing="$missing $cmd"
+done
+
+if [ -n "$missing" ]; then
+    echo "Installing:$missing"
+{{- if eq .chezmoi.os "darwin" }}
+    command -v brew >/dev/null 2>&1 || { echo "Homebrew is required: https://brew.sh" >&2; exit 1; }
+    for cmd in $missing; do
+        case "$cmd" in
+            task) brew install go-task ;;
+            *) brew install "$cmd" ;;
+        esac
+    done
+{{- else }}
+    command -v apt-get >/dev/null 2>&1 || { echo "Only apt is supported. Please install manually:$missing" >&2; exit 1; }
+    sudo apt-get update
+    for cmd in $missing; do
+        case "$cmd" in
+            # Debian's "task" package is taskwarrior, use the official installer instead
+            task) sh -c "$(curl -fsSL https://taskfile.dev/install.sh)" -- -d -b "$HOME/.local/bin" ;;
+            *) sudo apt-get install -y "$cmd" ;;
+        esac
+    done
+{{- end }}
+fi
+
+if ! command -v uv >/dev/null 2>&1 && [ ! -x "$HOME/.local/bin/uv" ]; then
+    echo "Installing uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
+fi
+
+zsh_path="$(command -v zsh)"
+case "${SHELL:-}" in
+    *zsh) ;;
+    *) chsh -s "$zsh_path" </dev/null || echo "Could not switch shell, run: chsh -s $zsh_path" >&2 ;;
+esac
+{{- end }}

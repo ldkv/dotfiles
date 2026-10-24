@@ -1,74 +1,75 @@
-[![Copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-grayscale-inverted-border-orange.json)](https://github.com/copier-org/copier)
-
 # dotfiles
 
-## About
+My dotfiles for Linux (apt), macOS and Windows, managed with [chezmoi](https://www.chezmoi.io/).
 
-A [Copier](https://copier.readthedocs.io/en/stable/) template to generate and sync dotfiles for various environments.
+## What it sets up
 
-## Prerequisites
+- **Linux / macOS**: zsh as login shell, [Oh My Zsh](https://ohmyz.sh/), [powerlevel10k](https://github.com/romkatv/powerlevel10k), zsh-autosuggestions, fast-syntax-highlighting, `gh`, `task` and `uv`.
+- **Windows**: PowerShell 7 profile with starship, git-aliases, `gh`, `task` (via [scoop](https://scoop.sh)) and `uv`.
+- **Everywhere**: `.gitconfig`, `.taskrc.yml`, a `Taskfile.yml` in your dev folder, VS Code and Zed `settings.json`.
 
-The project template is generated with [Copier](https://copier.readthedocs.io/en/stable/) and powered by [uv](https://docs.astral.sh/uv/).
+## Install on a new machine
 
-To install `uv`, run:
-
-```bash
-curl -LsSf https://astral.sh/uv/install.sh | sh
-```
-
-## Features
-
-This template includes the following features:
-
-- [x] TBD
-
-## How to use
-
-### Initialize and symlink to your dotfiles
-
-To initialize this template, run:
+Linux / macOS:
 
 ```bash
-uvx copier copy gh:ldkv/dotfiles.git $HOME/.dotfiles --trust
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply ldkv/dotfiles
 ```
 
-> [!CAUTION]
-> The target directory must be a subfolder of the home directory, e.g. `$HOME/.dotfiles`.
+Windows (PowerShell 7, [scoop](https://scoop.sh) installed, [Developer Mode](https://learn.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development) enabled for symlinks):
 
-This command will copy the template to the target directory, then execute the initial setup script to do the following actions in order. The action will be skipped if already done:
+```powershell
+scoop install chezmoi
+chezmoi init --apply ldkv/dotfiles
+```
 
-- Install `zsh`
-- Install [Oh My Zsh](https://ohmyz.sh/)
-- Install [powerlevel10k theme](https://github.com/romkatv/powerlevel10k)
-- Install various zsh plugins
-- Backup supported dotfiles to `$HOME/.dotfiles/backups`
-- Symlink dotfiles to the home directory
-- Initialize a local git repository in the target directory then auto-commit
+> [!TIP]
+> On a machine that already has dotfiles, run `chezmoi init ldkv/dotfiles` then `chezmoi diff` to review changes before `chezmoi apply`.
 
-It is also possible to execute the script yourself after initializing the template, by running:
+`chezmoi init` asks once per machine:
+
+| Prompt       | Used for                                    | Default                             |
+| ------------ | ------------------------------------------- | ----------------------------------- |
+| `user_name`  | git `user.name`                             | Vu LE                               |
+| `user_email` | git `user.email`                            | ledkvu@gmail.com                    |
+| `dev_dir`    | where `Taskfile.yml` is copied, `$env:DEV`  | `~/dev` (Windows: `D:\dev`)         |
+| `editor`     | git `core.editor`                           | `code --wait`                       |
+
+WSL is detected automatically. To change an answer later, edit `~/.config/chezmoi/chezmoi.toml` (`chezmoi edit-config`).
+
+## Daily use
+
+| Command                  | Alias             | What it does                                         |
+| ------------------------ | ----------------- | ---------------------------------------------------- |
+| `chezmoi update`         | `dotfiles-update` | Pull the latest changes and apply them               |
+| `chezmoi cd`             | `dotfiles`        | Open a shell in the source repo                      |
+| `chezmoi edit ~/.zshrc`  |                   | Edit the source of a file, then `chezmoi apply`      |
+| `chezmoi re-add`         |                   | Copy local edits of non-templated files back to repo |
+| `chezmoi diff`           |                   | Show what `chezmoi apply` would change               |
+| `chezmoi merge ~/.zshrc` |                   | Resolve a file edited both locally and in the repo   |
+
+Changes made through chezmoi are committed automatically; push them from `chezmoi cd`.
+
+VS Code and Zed `settings.json` are symlinks into the repo, so changes made in the app land directly in `home/.files/`.
+
+## Layout
+
+| Path                                | Purpose                                                                 |
+| ----------------------------------- | ----------------------------------------------------------------------- |
+| `home/`                             | chezmoi source directory (see `.chezmoiroot`)                           |
+| `home/.chezmoi.toml.tmpl`           | Per-machine prompts                                                     |
+| `home/.chezmoiexternal.toml.tmpl`   | Oh My Zsh, powerlevel10k and plugins, refreshed weekly                  |
+| `home/.chezmoiignore`               | Per-OS ignores                                                          |
+| `home/.chezmoidata/outside_home.yaml` | Files copied outside `$HOME` or to runtime paths (e.g. `$PROFILE`)    |
+| `home/.files/`                      | Sources for symlinked and outside-`$HOME` files                         |
+| `home/run_onchange_*`               | Package install and outside-`$HOME` deploy scripts                      |
+
+To deploy another file outside `$HOME`, put it in `home/.files/` and add an entry to `outside_home.yaml`.
+
+## Development
 
 ```bash
-uvx copier copy gh:ldkv/dotfiles.git $HOME/.dotfiles --skip-tasks
-cd $HOME/.dotfiles
-uv run -m scripts.setup
+task test  # apply into a sandbox HOME (.sandbox/) without running scripts
 ```
 
-### Update the project with latest template version
-
-After a project is already configured with this template, a file `.copier-answers.yml` should be generated in the project root directory. Do NOT modify this file manually.
-
-To update the project with the latest template version, simply run:
-
-```bash
-uvx copier update -A --trust
-```
-
-Or using the existing alias:
-
-```bash
-dotfiles-update
-```
-
-## Contributing
-
-To contribute to this template, feel free to open an issue or submit a pull request.
+CI applies the dotfiles on Ubuntu, macOS and Windows and checks that the shell starts without errors.

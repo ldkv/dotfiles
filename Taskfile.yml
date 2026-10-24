@@ -1,59 +1,21 @@
 version: "3"
 
 vars:
-  SIMULATOR_DIR: home-simulator
-  COPIER_COMMAND: uvx copier copy --vcs-ref=HEAD --force --trust .
-  PROD_DIR: prod
-  PROD_COMMAND: uvx copier copy --trust .
+  SANDBOX: "{{.ROOT_DIR}}/.sandbox"
 
 tasks:
   default: task --list-all
 
-  install-copier:
-    desc: Install Copier
-    deps: [install-uv]
+  test:
+    desc: Apply the dotfiles into a sandbox HOME (scripts excluded) and verify
+    env:
+      HOME: "{{.SANDBOX}}"
     cmds:
-      - uv tool install copier
+      - rm -rf "{{.SANDBOX}}"
+      - chezmoi init --apply --source . --promptDefaults --no-tty --exclude scripts
+      - chezmoi verify --source . --exclude scripts
+      - 'echo "Sandbox applied successfully in {{.SANDBOX}}."'
 
-  template:
-    desc: Generate the template for development
-    deps: [remove-template]
-    cmds:
-      - '{{.COPIER_COMMAND}} {{.SIMULATOR_DIR}}/.dotfiles -d "simulator=true"'
-      - 'echo "Template generated successfully in {{.SIMULATOR_DIR}}."'
-
-  remove-template:
-    desc: Remove the generated template
-    cmds:
-      - "rm -rf {{.SIMULATOR_DIR}}"
-      - 'echo "Template removed successfully."'
-
-  test-template:
-    desc: Test complete template generation with tasks
-    cmd: "{{.COPIER_COMMAND}} $HOME/.dot"
-
-  test-template-no-tasks:
-    desc: Test template generation without tasks
-    cmd: "{{.COPIER_COMMAND}} $HOME/.dot --skip-tasks"
-
-  copy-template:
-    desc: Initialize the template as a subfolder
-    cmd: "{{.PROD_COMMAND}} {{.PROD_DIR}}"
-
-  update-template:
-    desc: Update the production template
-    cmd: "uvx copier update {{.PROD_DIR}} --trust -A"
-
-  validate-version:
-    internal: true
-    desc: "Validates that .version is in SemVer format"
-    requires:
-      vars: [version]
-    preconditions:
-      - sh: 'echo "{{.version}}" | grep -Eq "^[0-9]+\.[0-9]+\.[0-9]+"'
-        msg: "Error: '{{.version}}' is not a valid SemVer format (e.g., 1.2.3)."
-
-  gh-release:
-    desc: Release a new version using gh CLI
-    cmds:
-      - gh release create "{{.version}}" --generate-notes
+  diff:
+    desc: Show what chezmoi apply would change in the real HOME
+    cmd: chezmoi diff

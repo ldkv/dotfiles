@@ -1,0 +1,18 @@
+{{- if eq .chezmoi.os "windows" -}}
+# Install the tools the PowerShell profile depends on.
+$ErrorActionPreference = "Stop"
+
+if (-not (Get-Command scoop -ErrorAction SilentlyContinue)) {
+    throw "scoop is required: https://scoop.sh"
+}
+if (-not (scoop bucket list | Where-Object Name -eq "extras")) {
+    scoop bucket add extras
+}
+# Already installed apps are skipped by scoop
+scoop install git gh task starship git-aliases
+
+if (-not (Get-Command uv -ErrorAction SilentlyContinue)) {
+    Write-Host "Installing uv..."
+    Invoke-RestMethod https://astral.sh/uv/install.ps1 | Invoke-Expression
+}
+{{- end }}

@@ -1,0 +1,24 @@
+{{- $devDirDefault := joinPath .chezmoi.homeDir "dev" -}}
+{{- if eq .chezmoi.os "windows" }}{{ $devDirDefault = "D:\\dev" }}{{ end -}}
+{{- $userName := promptStringOnce . "user_name" "Name for git config" "Vu LE" -}}
+{{- $userEmail := promptStringOnce . "user_email" "Email for git config" "ledkvu@gmail.com" -}}
+{{- $devDir := promptStringOnce . "dev_dir" "Dev folder (Taskfile.yml is copied here)" $devDirDefault -}}
+{{- $editor := promptStringOnce . "editor" "Git editor" "code --wait" -}}
+{{- $isWsl := and (eq .chezmoi.os "linux") (.chezmoi.kernel.osrelease | lower | contains "microsoft") -}}
+
+[data]
+user_name = {{ $userName | quote }}
+user_email = {{ $userEmail | quote }}
+dev_dir = {{ $devDir | quote }}
+editor = {{ $editor | quote }}
+is_wsl = {{ $isWsl }}
+
+[git]
+autoCommit = true
+{{- if eq .chezmoi.os "windows" }}
+
+# Run .ps1 scripts with PowerShell 7, not Windows PowerShell 5.1
+[interpreters.ps1]
+command = "pwsh"
+args = ["-NoLogo", "-NoProfile"]
+{{- end }}

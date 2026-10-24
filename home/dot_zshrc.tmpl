@@ -34,7 +34,7 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # HYPHEN_INSENSITIVE="true"
 
 # Uncomment one of the following lines to change the auto-update behavior
-# zstyle ':omz:update' mode disabled  # disable automatic updates
+zstyle ':omz:update' mode disabled  # oh-my-zsh is updated by chezmoi (.chezmoiexternal.toml)
 # zstyle ':omz:update' mode auto      # update automatically without asking
 # zstyle ':omz:update' mode reminder  # just remind me to update when it's time
 
@@ -87,7 +87,6 @@ plugins=(
   z
   zsh-autosuggestions
   fast-syntax-highlighting
-  ohmyzsh-full-autoupdate
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -125,14 +124,15 @@ setopt HIST_REDUCE_BLANKS   # Remove superfluous blanks before recording entry.
 
 ##@ Source tools
 # For uv
-. "$HOME/.local/bin/env"
+[[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
 eval "$(uv generate-shell-completion zsh)"
 eval "$(uvx --generate-shell-completion zsh)"
 source "$HOME/.uv_wrapper.zsh"
 
 
 ##@ Environment variables
-{%- if _copier_conf.os == "macos" %}
+export LANG=en_US.UTF-8
+{{- if eq .chezmoi.os "darwin" }}
 export PATH=$PATH:/opt/homebrew/bin # Homebrew on MacOS
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES # Fix for Python multiprocessing
@@ -142,4 +142,4 @@ fpath=($HOME/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
 # End of Docker CLI completions
-{%- endif %}
+{{- end }}
