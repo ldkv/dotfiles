@@ -41,7 +41,7 @@ jobs:
         if: runner.os != 'Windows'
         shell: bash
         run: |
-          insecure=$(zsh -i -c 'autoload -Uz compaudit && compaudit' </dev/null 2>/dev/null || true)
+          insecure=$(zsh -f -c 'autoload -Uz compaudit && compaudit' 2>/dev/null || true)
           echo "Insecure directories: ${insecure:-none}"
           [ -z "$insecure" ] || echo "$insecure" | xargs sudo chmod g-w,o-w
 
