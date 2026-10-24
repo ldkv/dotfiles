@@ -37,6 +37,14 @@ jobs:
       - name: Apply dotfiles
         run: chezmoi init --apply --source "${{ github.workspace }}" --promptDefaults --no-tty
 
+      - name: Fix insecure completion directories
+        if: runner.os != 'Windows'
+        shell: bash
+        run: |
+          insecure=$(zsh -i -c 'autoload -Uz compaudit && compaudit' </dev/null 2>/dev/null || true)
+          echo "Insecure directories: ${insecure:-none}"
+          [ -z "$insecure" ] || echo "$insecure" | xargs sudo chmod g-w,o-w
+
       - name: Check zsh starts without errors
         if: runner.os != 'Windows'
         shell: bash
@@ -46,7 +54,10 @@ jobs:
 
       - name: Check PowerShell profile loads without errors
         if: runner.os == 'Windows'
-        shell: pwsh
+        shell: pwsh -NoProfile -NonInteractive -Command ". '{0}'"
         run: |
+          # scoop updates PATH and PSModulePath in the registry, reload them like a new terminal would
+          $env:Path = [Environment]::GetEnvironmentVariable("Path", "User") + ";" + $env:Path
+          $env:PSModulePath = [Environment]::GetEnvironmentVariable("PSModulePath", "User") + ";" + $env:PSModulePath
           $ErrorActionPreference = "Stop"
           . $PROFILE
