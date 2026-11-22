@@ -5,11 +5,13 @@ set -eu
 {{ range .outside_home -}}
 {{- $target := index .targets $.chezmoi.os -}}
 {{- if $target }}
-# {{ .source }} sha256: {{ include .source | sha256sum }}
+source={{ joinPath $.chezmoi.sourceDir .source | quote }}
 target={{ $target | replace "{dev_dir}" $.dev_dir | quote }}
-mkdir -p "$(dirname "$target")"
-cp {{ joinPath $.chezmoi.sourceDir .source | quote }} "$target"
-echo "Deployed $target"
+if ! cmp -s "$source" "$target"; then
+    mkdir -p "$(dirname "$target")"
+    cp "$source" "$target"
+    echo "Deployed $target"
+fi
 {{- end }}
 {{- end }}
 {{- end }}

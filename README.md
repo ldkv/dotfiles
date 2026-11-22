@@ -69,7 +69,8 @@ Changes made through chezmoi are committed automatically, pushing is manual.
 | `home/.chezmoiignore`                 | Per-OS ignores                                                     |
 | `home/.chezmoidata/outside_home.yaml` | Files copied outside `$HOME` or to runtime paths (e.g. `$PROFILE`) |
 | `home/.files/`                        | Sources for symlinked and outside-`$HOME` files                    |
-| `home/run_onchange_*`                 | Package install and outside-`$HOME` deploy scripts                 |
+| `home/run_onchange_*`                 | Package install script                                             |
+| `home/run_after_*`                    | Outside-`$HOME` deploy scripts, run on every `chezmoi apply`       |
 
 ## Development
 
