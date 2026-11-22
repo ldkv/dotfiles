@@ -18,9 +18,8 @@ Linux / macOS:
 
 ```bash
 sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin
+export PATH="$HOME/.local/bin:$PATH"  # this session only, .zshrc adds it afterwards
 ```
-
-Until step 4 is done, run it as `~/.local/bin/chezmoi`. Don't add `~/.local/bin` to `PATH` yourself: the uv installer (run by `chezmoi apply`) only creates `~/.local/bin/env`, which `.zshrc` sources, when that folder is not on `PATH` yet.
 
 Windows (PowerShell 7, [scoop](https://scoop.sh) installed, [Developer Mode](https://learn.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development) enabled for symlinks):
 
