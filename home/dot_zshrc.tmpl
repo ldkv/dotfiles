@@ -132,7 +132,7 @@ source "$HOME/.uv_wrapper.zsh"
 
 
 ##@ Environment variables
-{%- if _copier_conf.os == "macos" %}
+{{- if eq .chezmoi.os "darwin" }}
 export PATH=$PATH:/opt/homebrew/bin # Homebrew on MacOS
 export PATH="/opt/homebrew/opt/postgresql@17/bin:$PATH"
 export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES # Fix for Python multiprocessing
@@ -142,4 +142,4 @@ fpath=($HOME/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
 # End of Docker CLI completions
-{%- endif %}
+{{- end }}

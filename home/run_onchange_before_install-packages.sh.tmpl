@@ -1,0 +1,24 @@
+{{- if ne .chezmoi.os "windows" -}}
+#!/bin/sh
+# Install zsh and make it the login shell.
+set -eu
+
+if ! command -v zsh >/dev/null 2>&1; then
+    echo "Installing zsh..."
+    if command -v apt >/dev/null 2>&1; then
+        sudo apt update
+        sudo apt install -y zsh
+    elif command -v brew >/dev/null 2>&1; then
+        brew install zsh
+    else
+        echo "Unsupported package manager. Please install zsh manually." >&2
+        exit 1
+    fi
+fi
+
+zsh_path="$(command -v zsh)"
+case "${SHELL:-}" in
+    *zsh) ;;
+    *) chsh -s "$zsh_path" </dev/null || echo "Could not switch shell, run: chsh -s $zsh_path" >&2 ;;
+esac
+{{- end }}

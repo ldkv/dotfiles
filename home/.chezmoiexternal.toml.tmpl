@@ -1,0 +1,23 @@
+{{- if ne .chezmoi.os "windows" -}}
+[".oh-my-zsh"]
+type = "git-repo"
+url = "https://github.com/ohmyzsh/ohmyzsh.git"
+clone.args = ["--depth", "1"]
+
+[".oh-my-zsh/custom/themes/powerlevel10k"]
+type = "git-repo"
+url = "https://github.com/romkatv/powerlevel10k.git"
+clone.args = ["--depth", "1"]
+
+[".oh-my-zsh/custom/plugins/zsh-autosuggestions"]
+type = "git-repo"
+url = "https://github.com/zsh-users/zsh-autosuggestions"
+
+[".oh-my-zsh/custom/plugins/fast-syntax-highlighting"]
+type = "git-repo"
+url = "https://github.com/zdharma-continuum/fast-syntax-highlighting.git"
+
+[".oh-my-zsh/custom/plugins/ohmyzsh-full-autoupdate"]
+type = "git-repo"
+url = "https://github.com/Pilaton/OhMyZsh-full-autoupdate.git"
+{{- end }}

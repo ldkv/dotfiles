@@ -1,0 +1,9 @@
+# Windows files deployed outside chezmoi's destination ($HOME), or to paths only known at runtime.
+# Copied by run_onchange_after_deploy-outside-home.ps1.tmpl whenever a source changes.
+# source: path relative to this source directory
+# target: expanded by PowerShell (e.g. $PROFILE, $env:APPDATA)
+outside_home:
+  - source: dev/Taskfile.yml
+    target: 'D:\dev\Taskfile.yml'
+  - source: .files/powershell/profile_stub.ps1
+    target: "$PROFILE"
