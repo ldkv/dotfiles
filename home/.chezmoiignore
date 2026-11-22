@@ -4,7 +4,15 @@
 .uv_wrapper.zsh
 .p10k.zsh
 .oh-my-zsh
-dev
+.config/Code
+.config/zed
 {{- else }}
+AppData
 .config/powershell
+{{- end }}
+{{- if ne .chezmoi.os "darwin" }}
+Library
+{{- end }}
+{{- if eq .chezmoi.os "darwin" }}
+.config/Code
 {{- end }}

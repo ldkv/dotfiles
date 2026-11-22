@@ -1,19 +1,47 @@
 {{- if ne .chezmoi.os "windows" -}}
 #!/bin/sh
-# Install zsh and make it the login shell.
+# Install the tools the shell config depends on, then make zsh the login shell.
 set -eu
 
-if ! command -v zsh >/dev/null 2>&1; then
-    echo "Installing zsh..."
-    if command -v apt >/dev/null 2>&1; then
-        sudo apt update
-        sudo apt install -y zsh
-    elif command -v brew >/dev/null 2>&1; then
-        brew install zsh
+missing=""
+for cmd in zsh gh task; do
+    command -v "$cmd" >/dev/null 2>&1 || missing="$missing $cmd"
+done
+
+if [ -n "$missing" ]; then
+    echo "Installing:$missing"
+{{- if eq .chezmoi.os "darwin" }}
+    command -v brew >/dev/null 2>&1 || { echo "Homebrew is required: https://brew.sh" >&2; exit 1; }
+    for cmd in $missing; do
+        case "$cmd" in
+            task) brew install go-task ;;
+            *) brew install "$cmd" ;;
+        esac
+    done
+{{- else }}
+    command -v apt-get >/dev/null 2>&1 || { echo "Only apt is supported. Please install manually:$missing" >&2; exit 1; }
+    if [ "$(id -u)" -eq 0 ]; then
+        sudo=""
+    elif command -v sudo >/dev/null 2>&1; then
+        sudo="sudo"
     else
-        echo "Unsupported package manager. Please install zsh manually." >&2
+        echo "sudo not found. Run as root or install sudo, or install manually:$missing" >&2
         exit 1
     fi
+    $sudo apt-get update
+    for cmd in $missing; do
+        case "$cmd" in
+            # Debian's "task" package is taskwarrior, use the official installer instead
+            task) sh -c "$(curl -fsSL https://taskfile.dev/install.sh)" -- -d -b "$HOME/.local/bin" ;;
+            *) $sudo apt-get install -y "$cmd" ;;
+        esac
+    done
+{{- end }}
+fi
+
+if ! command -v uv >/dev/null 2>&1 && [ ! -x "$HOME/.local/bin/uv" ]; then
+    echo "Installing uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sh
 fi
 
 zsh_path="$(command -v zsh)"
