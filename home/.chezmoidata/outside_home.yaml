@@ -1,5 +1,5 @@
 # Files deployed outside chezmoi's destination ($HOME), or to paths only known at runtime.
-# Copied by run_onchange_after_deploy-outside-home.{sh,ps1}.tmpl whenever a source changes.
+# Copied by run_after_deploy-outside-home.{sh,ps1}.tmpl on every chezmoi apply, so a deleted copy comes back.
 # source: path relative to this source directory
 # targets: per OS (linux, darwin, windows); "{dev_dir}" is replaced by the dev_dir prompt value,
 #          on Windows the target is expanded by PowerShell (e.g. $PROFILE, $env:APPDATA).
