@@ -57,7 +57,21 @@ Then open a new shell and run `chezmoi verify`.
 
 Before step 4:
 
-1. Remove the old symlinks the deploy script would follow into `~/.dotfiles`: `Taskfile.yml` in your dev folder, and on Windows `$PROFILE`.
+1. Remove the old `Taskfile.yml` symlink (and `$PROFILE` on Windows): the deploy script copies through a symlink into `~/.dotfiles`, leaving a broken link once that folder is deleted. Other old symlinks (`.zshrc`, …) are replaced by `chezmoi apply` itself.
+
+   ```bash
+   find ~ -maxdepth 3 -type l -lname "$HOME/.dotfiles/*" -not -path "$HOME/.dotfiles/*" -exec ls -l {} \;  # list old symlinks
+   f=~/dev/Taskfile.yml  # the Taskfile in your dev folder
+   [ -L "$f" ] && rm -v "$f"
+   ```
+
+   ```powershell
+   foreach ($f in $PROFILE, 'D:\dev\Taskfile.yml') {
+       $item = Get-Item $f -ErrorAction SilentlyContinue
+       if ($item.LinkType) { "$f -> $($item.Target)"; Remove-Item $f }
+   }
+   ```
+
 2. Compare the old files with the new ones, since `chezmoi diff` only shows the symlinks being replaced:
 
    ```bash
