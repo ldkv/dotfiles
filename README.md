@@ -33,7 +33,7 @@ chezmoi init --apply ldkv/dotfiles
 | `user_name`  | git `user.name`                            | Vu LE                       |
 | `user_email` | git `user.email`                           | ledkvu@gmail.com            |
 | `dev_dir`    | where `Taskfile.yml` is copied, `$env:DEV` | `~/dev` (Windows: `D:\dev`) |
-| `editor`     | git `core.editor`                          | `code --wait`               |
+| `editor`     | git `core.editor`                          | `vim`                       |
 
 WSL is detected automatically. To change an answer later, edit `~/.config/chezmoi/chezmoi.toml` (`chezmoi edit-config`).
 
