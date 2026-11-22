@@ -12,20 +12,9 @@ My dotfiles for Linux (apt), macOS and Windows, managed with [chezmoi](https://w
 
 Always review before applying: `chezmoi apply` overwrites existing dotfiles, so local changes that are not in this repo are lost.
 
-**1. Install chezmoi**
+**1. Install chezmoi** following the [chezmoi install guide](https://www.chezmoi.io/install/) for your OS, and make sure `chezmoi` is on your `PATH`. Recommended: scoop on Windows, Homebrew on macOS, the one-line install script on Linux.
 
-Linux / macOS:
-
-```bash
-sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin
-export PATH="$HOME/.local/bin:$PATH"  # this session only, .zshrc adds it afterwards
-```
-
-Windows (PowerShell 7, [scoop](https://scoop.sh) installed, [Developer Mode](https://learn.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development) enabled for symlinks):
-
-```powershell
-scoop install chezmoi
-```
+On Windows, also install PowerShell 7 and [scoop](https://scoop.sh), and enable [Developer Mode](https://learn.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development) for the VS Code settings symlink.
 
 **2. Clone and answer the prompts** (nothing in `$HOME` changes yet)
 
