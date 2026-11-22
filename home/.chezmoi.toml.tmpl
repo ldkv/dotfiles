@@ -1,0 +1,18 @@
+{{- $userName := promptStringOnce . "user_name" "Name for git config" "Vu LE" -}}
+{{- $userEmail := promptStringOnce . "user_email" "Email for git config" "ledkvu@gmail.com" -}}
+{{- $isWsl := promptBoolOnce . "is_wsl" "Is WSL" false -}}
+
+[data]
+user_name = {{ $userName | quote }}
+user_email = {{ $userEmail | quote }}
+is_wsl = {{ $isWsl }}
+
+[git]
+autoCommit = true
+{{- if eq .chezmoi.os "windows" }}
+
+# Run .ps1 scripts with PowerShell 7, not Windows PowerShell 5.1
+[interpreters.ps1]
+command = "pwsh"
+args = ["-NoLogo", "-NoProfile"]
+{{- end }}

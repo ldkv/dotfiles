@@ -1,0 +1,10 @@
+{{- if eq .chezmoi.os "windows" }}
+.zshrc
+.zsh_aliases
+.uv_wrapper.zsh
+.p10k.zsh
+.oh-my-zsh
+dev
+{{- else }}
+.config/powershell
+{{- end }}
