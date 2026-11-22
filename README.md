@@ -6,7 +6,7 @@ My dotfiles for Linux (apt), macOS and Windows, managed with [chezmoi](https://w
 
 - **Linux / macOS**: zsh as login shell, [Oh My Zsh](https://ohmyz.sh/), [powerlevel10k](https://github.com/romkatv/powerlevel10k), zsh-autosuggestions, fast-syntax-highlighting, `gh`, `task` and `uv`.
 - **Windows**: PowerShell 7 profile with starship, git-aliases, `gh`, `task` (via [scoop](https://scoop.sh)) and `uv`.
-- **Everywhere**: `.gitconfig`, `.taskrc.yml`, a `Taskfile.yml` in your dev folder, VS Code and Zed `settings.json`.
+- **Everywhere**: `.gitconfig`, `.taskrc.yml`, a `Taskfile.yml` in your dev folder, VS Code `settings.json`.
 
 ## Install on a new machine
 
@@ -54,7 +54,7 @@ Changes made through chezmoi are committed automatically, pushing is manual.
 | Work in the repo              | `chezmoi cd`                                                         |
 
 - **Edited `~/.zshrc` directly by mistake?** `chezmoi apply` detects it and asks before overwriting. `chezmoi re-add` skips templates (`.zshrc`, `.zsh_aliases`, `.gitconfig`, PowerShell profile), use `chezmoi merge` for those.
-- **VS Code and Zed** `settings.json` are symlinks into `home/.files/`: change settings in the app, then commit from `chezmoi cd` (bypasses auto-commit).
+- **VS Code** `settings.json` is a symlink into `home/.files/`: change settings in the app, then commit from `chezmoi cd` (bypasses auto-commit).
 - **Per-OS or per-machine differences**: template conditions (`{{ if eq .chezmoi.os "darwin" }}`) or prompt values (`.dev_dir`, `.editor`, `.is_wsl`); files for some OSes only go in `home/.chezmoiignore`.
 - **Files outside `$HOME`**: put them in `home/.files/` and add an entry to `home/.chezmoidata/outside_home.yaml`.
 - **Externals** (Oh My Zsh, powerlevel10k, plugins) refresh weekly on `chezmoi apply`; install scripts only rerun when their content changes.
