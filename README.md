@@ -8,23 +8,68 @@ My dotfiles for Linux (apt), macOS and Windows, managed with [chezmoi](https://w
 - **Windows**: PowerShell 7 profile with starship, git-aliases, `gh`, `task` (via [scoop](https://scoop.sh)) and `uv`.
 - **Everywhere**: `.gitconfig`, `.taskrc.yml`, a `Taskfile.yml` in your dev folder, VS Code `settings.json`.
 
-## Install on a new machine
+## Install
+
+Always review before applying: `chezmoi apply` overwrites existing dotfiles, so local changes that are not in this repo are lost.
+
+**1. Install chezmoi**
 
 Linux / macOS:
 
 ```bash
-sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin init --apply ldkv/dotfiles
+sh -c "$(curl -fsLS get.chezmoi.io)" -- -b ~/.local/bin
 ```
+
+Until step 4 is done, run it as `~/.local/bin/chezmoi`. Don't add `~/.local/bin` to `PATH` yourself: the uv installer (run by `chezmoi apply`) only creates `~/.local/bin/env`, which `.zshrc` sources, when that folder is not on `PATH` yet.
 
 Windows (PowerShell 7, [scoop](https://scoop.sh) installed, [Developer Mode](https://learn.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development) enabled for symlinks):
 
 ```powershell
 scoop install chezmoi
-chezmoi init --apply ldkv/dotfiles
 ```
 
-> [!TIP]
-> On a machine that already has dotfiles, run `chezmoi init ldkv/dotfiles` then `chezmoi diff` to review changes before `chezmoi apply`.
+**2. Clone and answer the prompts** (nothing in `$HOME` changes yet)
+
+```bash
+chezmoi init ldkv/dotfiles
+```
+
+**3. Review what would change**
+
+```bash
+chezmoi status --exclude externals  # one line per file
+chezmoi diff --exclude externals    # full diff
+```
+
+Bring anything you want to keep into the repo first (`chezmoi edit <file>`, or `chezmoi add <file>` for files not managed yet).
+
+**4. Apply**
+
+```bash
+chezmoi apply
+```
+
+Then open a new shell and run `chezmoi verify`.
+
+> [!NOTE]
+> On a brand-new machine with no dotfiles to lose, steps 2–4 can be combined: `chezmoi init --apply ldkv/dotfiles`.
+
+### Migrating from the old Copier setup (`~/.dotfiles`)
+
+Before step 4:
+
+1. Remove the old symlinks the deploy script would follow into `~/.dotfiles`: `Taskfile.yml` in your dev folder, and on Windows `$PROFILE`.
+2. Compare the old files with the new ones, since `chezmoi diff` only shows the symlinks being replaced:
+
+   ```bash
+   for f in .zshrc .zsh_aliases .gitconfig .taskrc.yml .p10k.zsh .uv_wrapper.zsh; do
+     echo "== $f"; diff "$(readlink -f ~/$f)" <(chezmoi cat ~/$f)
+   done
+   ```
+
+   Lines starting with `<` exist only in the old setup.
+
+After step 4, delete `~/.dotfiles` once everything works.
 
 `chezmoi init` asks once per machine:
 
