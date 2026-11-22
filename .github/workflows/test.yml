@@ -23,8 +23,10 @@ jobs:
       - name: Install uv and chezmoi
         if: runner.os != 'Windows'
         run: |
-          # uv only writes ~/.local/bin/env (sourced by .zshrc) when ~/.local/bin is not on PATH yet
-          curl -LsSf https://astral.sh/uv/install.sh | sh
+          # uv only writes ~/.local/bin/env (sourced by .zshrc) when ~/.local/bin is not on PATH,
+          # runners already have it there, so install with the PATH of a fresh machine
+          curl -LsSf https://astral.sh/uv/install.sh | env PATH=/usr/bin:/bin sh
+          test -f "$HOME/.local/bin/env"
           sh -c "$(curl -fsLS get.chezmoi.io)" -- -b "$HOME/.local/bin"
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
