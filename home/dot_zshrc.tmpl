@@ -1,3 +1,8 @@
+# Zed starts terminals as `zsh -i -c "exec env ... zsh -l"`. Skip init in that wrapper: otherwise
+# p10k starts gitstatus, the exec (same PID, same second) reuses its lock file name, and the
+# wrapper's cleanup deletes the real shell's lock -> "gitstatus failed to initialize".
+[[ $ZSH_EXECUTION_STRING == 'exec env '*'ZED_TERM=true'* ]] && return
+
 # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
 # Initialization code that may require console input (password prompts, [y/n]
 # confirmations, etc.) must go above this block; everything else may go below.
